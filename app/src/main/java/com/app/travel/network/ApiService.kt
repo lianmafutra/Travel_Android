@@ -1,15 +1,29 @@
 package com.app.travel.network
 
+import com.app.travel.model.Login
+import com.app.travel.model.UserDetail
 import okhttp3.RequestBody
+import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
+
+    @POST("api/user/login")
+    @FormUrlEncoded
+     fun login(
+        @Field("username") username: String?,
+        @Field("password") password: String?
+    ): Call<Login>
+
+
+    @GET("api/user/detail")
+     fun userDetail() : Call<UserDetail>
+
     @POST("api/user/logout")
     @FormUrlEncoded
     suspend fun logout(@Field("token_firebase") token_firebase: String?,): BaseResponseApi
 
-//    @GET("api/user/detail")
-//    suspend fun userDetail(): User
 
     @POST("api/user/password/lupa")
     @FormUrlEncoded
@@ -33,13 +47,6 @@ interface ApiService {
         @Field("password_lama") password_lama: String?,
         @Field("password_baru") password_baru: String?
     ): BaseResponseApi
-
-//    @POST("api/user/login")
-//    @FormUrlEncoded
-//    suspend fun login(
-//        @Field("username") username: String?,
-//        @Field("password") password: String?
-//    ): Login
 
     @Multipart
     @POST("api/user/register")

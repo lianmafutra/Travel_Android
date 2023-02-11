@@ -3,8 +3,7 @@ package com.app.travel.network
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.widget.Toast
-import com.app.travel.LoginActiviry
+import com.app.travel.LoginActivity
 import com.app.travel.MainActivity
 import com.app.travel.R
 
@@ -45,7 +44,7 @@ class SessionManager(context: Context)  {
             val intent = Intent(context2, MainActivity::class.java)
             context2.startActivity(intent)
         }else{
-            val intent = Intent(context2, LoginActiviry::class.java)
+            val intent = Intent(context2, LoginActivity::class.java)
             context2.startActivity(intent)
         }
     }
