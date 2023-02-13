@@ -33,7 +33,7 @@ object RetrofitService {
 
         val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("http://192.168.210.170:8000")
+            .baseUrl(Config.BASE_URL)
             .client(mOkHttpClient)
             .build()
 

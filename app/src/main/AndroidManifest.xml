@@ -17,17 +17,23 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activity.ReviewActivity"
+            android:exported="false"  android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".activity.JadwalDetailActivity"
+            android:exported="false"  android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
             android:name=".activity.JadwalActivity"
-            android:exported="false" />
+            android:exported="false" android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".activity.PilihLokasiActivity"
-            android:exported="false" />
+            android:exported="false"  android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".activity.PesananDetailActivity"
-            android:exported="false" />
+            android:exported="false"  android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".activity.UbahPasswordActivity"
-            android:exported="false" />
+            android:exported="false"  android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".activity.PesananActivity"
             android:exported="false"

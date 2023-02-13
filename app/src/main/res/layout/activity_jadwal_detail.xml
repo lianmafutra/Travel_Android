@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    tools:context=".activity.JadwalActivity">
+    tools:context=".activity.JadwalDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             app:titleTextColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Pilih Jadwal Travel" />
+            app:title="Jadwal Detail" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -40,24 +40,7 @@
 
             android:layout_width="match_parent"
             android:orientation="vertical"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/tv_lokasi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="20dp"
-                android:text=""
-                android:textSize="20sp"
-                tools:text="Perjalanan : Jambi -> palembang" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_jadwal"
-                android:layout_marginTop="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
+            android:layout_height="match_parent"/>
 
     </androidx.core.widget.NestedScrollView>
 

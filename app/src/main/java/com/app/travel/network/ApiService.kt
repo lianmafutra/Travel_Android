@@ -1,9 +1,6 @@
 package com.app.travel.network
 
-import com.app.travel.model.Jadwal
-import com.app.travel.model.Login
-import com.app.travel.model.Lokasi
-import com.app.travel.model.UserDetail
+import com.app.travel.model.*
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
@@ -33,6 +30,9 @@ interface ApiService {
 
     @GET("api/jadwal/detail/{id_jadwal}")
     fun jadwalDetail(@Query("id_jadwal") id_jadwal: String) : Call<Jadwal>
+
+    @GET("/api/pesanan/mobil/{id_mobil}/review")
+    fun reviewByMobil(@Path("id_mobil") id_mobil: String) : Call<ReviewPengguna>
 
 //    @GET("api/jadwal/detail/{id_jadwal}")
 //    fun jadwalDetail(@Query("id_jadwal") id_jadwal: String) : Call<Jadwal>
