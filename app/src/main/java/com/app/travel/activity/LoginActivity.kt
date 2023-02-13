@@ -1,25 +1,16 @@
-package com.app.travel
+package com.app.travel.activity
 
-import android.accounts.NetworkErrorException
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import androidx.lifecycle.lifecycleScope
 import com.app.travel.databinding.ActivityLoginActiviryBinding
 import com.app.travel.model.Login
-import com.app.travel.model.UserDetail
-import com.app.travel.network.ApiService
 import com.app.travel.network.RetrofitService
 import com.app.travel.network.SessionManager
-import kotlinx.coroutines.*
-import okhttp3.OkHttpClient
-import okio.IOException
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.HttpException
 import retrofit2.Response
-import retrofit2.http.HTTP
 
 
 class LoginActivity : AppCompatActivity() {
@@ -41,7 +32,6 @@ class LoginActivity : AppCompatActivity() {
 
         binding.btnLogin.setOnClickListener {
             loginRequest(binding.edtEmail1.text.toString(), binding.edtPassword.text.toString())
-            userDetailRequest()
         }
 
 
@@ -69,18 +59,5 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun userDetailRequest() {
-      RetrofitService.create(this).userDetail().enqueue(object : Callback<UserDetail> {
-            override fun onResponse(call: Call<UserDetail>, response: Response<UserDetail>) {
-                if (response.isSuccessful) {
-                    val data = response.body()
-                    Toast.makeText(this@LoginActivity, ""+ data?.data.toString(), Toast.LENGTH_SHORT).show()
-                }
-            }
-            override fun onFailure(call: Call<UserDetail>, t: Throwable) {
-                Toast.makeText(this@LoginActivity, ""+ t, Toast.LENGTH_SHORT).show()
-            }
-        })
 
-    }
     }

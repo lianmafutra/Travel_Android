@@ -1,26 +1,22 @@
-package com.app.travel
+package com.app.travel.activity
 
-//noinspection SuspiciousImport
 import android.R
+import android.content.pm.ActivityInfo
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import com.app.travel.databinding.ActivityRegisterBinding
+import com.app.travel.databinding.ActivityInfoAplikasiBinding
+import com.app.travel.databinding.ActivityProfilBinding
 
-
-class RegisterActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityRegisterBinding
+class InfoAplikasiActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityInfoAplikasiBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityRegisterBinding.inflate(layoutInflater)
+        binding = ActivityInfoAplikasiBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
         setSupportActionBar(binding.topAppBar);
         supportActionBar!!.setDisplayHomeAsUpEnabled(true);
-
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

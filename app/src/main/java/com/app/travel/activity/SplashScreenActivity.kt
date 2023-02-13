@@ -1,9 +1,10 @@
-package com.app.travel
+package com.app.travel.activity
 
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import com.app.travel.R
 import com.app.travel.network.SessionManager
 
 @SuppressLint("CustomSplashScreen")

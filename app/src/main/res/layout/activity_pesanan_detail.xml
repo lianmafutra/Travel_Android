@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    tools:context=".activity.InfoAplikasiActivity">
+    tools:context=".activity.PesananDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             app:titleTextColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Info Aplikasi" />
+            app:title="Pesanan Detail" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -35,7 +35,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
         tools:ignore="SpeakableTextPresentCheck">
-
 
     </androidx.core.widget.NestedScrollView>
 

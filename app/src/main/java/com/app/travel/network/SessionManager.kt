@@ -3,8 +3,8 @@ package com.app.travel.network
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import com.app.travel.LoginActivity
-import com.app.travel.MainActivity
+import com.app.travel.activity.LoginActivity
+import com.app.travel.activity.MainActivity
 import com.app.travel.R
 
 

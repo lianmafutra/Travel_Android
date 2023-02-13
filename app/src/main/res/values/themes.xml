@@ -32,4 +32,17 @@
     </style>
 
 
+    <style name="button_global_secondary" parent="@style/Widget.Material3.Button.ElevatedButton">
+        <item name="android:textColor">@color/white</item>
+        <item name="rippleColor">#5009F1</item>
+        <item name="backgroundTint">#70769F</item>
+    </style>
+
+    <style name="button_global_red" parent="@style/Widget.Material3.Button.ElevatedButton">
+        <item name="android:textColor">@color/white</item>
+        <item name="rippleColor">#5009F1</item>
+        <item name="backgroundTint">@color/red_btn_bg_color</item>
+    </style>
+
+
 </resources>
