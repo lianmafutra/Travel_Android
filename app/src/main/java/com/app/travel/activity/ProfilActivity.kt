@@ -11,6 +11,7 @@ import com.app.travel.databinding.ActivityProfilBinding
 import com.app.travel.model.UserDetail
 import com.app.travel.network.RetrofitService
 import com.app.travel.network.SessionManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,8 +31,16 @@ class ProfilActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true);
 
         binding.btnLogout.setOnClickListener{
-            sessionManager.deleteAuthToken()
-            startActivity(Intent(this, LoginActivity::class.java))
+            MaterialAlertDialogBuilder(this)
+                .setTitle("Apakah anda ingin keluar dari akun ?")
+                .setNegativeButton("batal") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .setPositiveButton("Ya, Keluar") { _, _ ->
+                    sessionManager.deleteAuthToken()
+                    startActivity(Intent(this, LoginActivity::class.java))
+                }
+                .show()
         }
 
         binding.btnUbahPass.setOnClickListener{
