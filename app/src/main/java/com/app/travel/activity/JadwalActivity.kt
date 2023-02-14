@@ -71,7 +71,7 @@ class JadwalActivity : AppCompatActivity() ,JadwalAdapter.OnItemClickListener  {
             val bundle = Bundle()
             bundle.putString("id_jadwal", layananItem!!.id.toString())
 
-            val intent = Intent(this, JadwalDetailActivity::class.java)
+            val intent = Intent(this, PesanKursiActivity::class.java)
             intent.putExtras(bundle)
             startActivity(intent)
         }

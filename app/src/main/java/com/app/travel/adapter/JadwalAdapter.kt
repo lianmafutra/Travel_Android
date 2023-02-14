@@ -45,7 +45,7 @@ class JadwalAdapter(
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder)
                 .centerCrop()
-                .into(binding.imgMobil);
+                .into(binding.imgFotoUser);
 
             binding.tvHarga.text = item.harga?.toString()!!.convertToRupiah()
             binding.tvNamaMobil.text = item.mobil.nama.toString()

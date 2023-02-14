@@ -5,14 +5,19 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.app.travel.adapter.JadwalAdapter
+import com.app.travel.adapter.ReviewPenggunaAdapter
 import com.app.travel.databinding.ActivityReviewBinding
+import com.app.travel.model.DataItemJadwal
+import com.app.travel.model.DataItemReview
 import com.app.travel.model.ReviewPengguna
 import com.app.travel.network.RetrofitService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ReviewActivity : AppCompatActivity() {
+class ReviewActivity : AppCompatActivity(), ReviewPenggunaAdapter.OnItemClickListener {
     private lateinit var binding: ActivityReviewBinding
 
     @SuppressLint("SetTextI18n")
@@ -22,6 +27,7 @@ class ReviewActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         setSupportActionBar(binding.topAppBar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         val bundle = intent.extras
         reviewPenggunaRequest(bundle!!.getString("id_mobil")!!)
     }
@@ -36,6 +42,8 @@ class ReviewActivity : AppCompatActivity() {
     }
 
     private fun reviewPenggunaRequest(id_mobil: String) {
+        binding.rvReviewPengguna.layoutManager = LinearLayoutManager(this)
+        binding.rvReviewPengguna.adapter = null
         RetrofitService.create(this).reviewByMobil(id_mobil)
             .enqueue(object : Callback<ReviewPengguna> {
                 override fun onResponse(
@@ -44,7 +52,8 @@ class ReviewActivity : AppCompatActivity() {
                 ) {
                     if (response.isSuccessful) {
                         val data = response.body()!!.data
-                        Toast.makeText(this@ReviewActivity, ""+data.toString(), Toast.LENGTH_SHORT).show()
+                        val adapter = ReviewPenggunaAdapter(data, this@ReviewActivity,this@ReviewActivity)
+                        binding.rvReviewPengguna.adapter = adapter
 
                     }
                 }
@@ -55,5 +64,12 @@ class ReviewActivity : AppCompatActivity() {
             })
 
     }
+
+
+
+    override fun onItemClickedLayananSyarat(dataItemReview: DataItemReview?, s: String) {
+
+    }
+
 
 }

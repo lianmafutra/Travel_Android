@@ -59,7 +59,7 @@ data class DataItemReview(
 	val createdAt: String? = null,
 
 	@field:SerializedName("rating_nilai")
-	val ratingNilai: Int? = null,
+	val ratingNilai: Float?,
 
 	@field:SerializedName("status_pesanan")
 	val statusPesanan: String? = null,
