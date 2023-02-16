@@ -1,13 +1,16 @@
 package com.app.travel.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.app.travel.databinding.ActivityLoginActiviryBinding
 import com.app.travel.model.Login
+import com.app.travel.model.User
 import com.app.travel.network.RetrofitService
 import com.app.travel.network.SessionManager
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,7 +48,10 @@ class LoginActivity : AppCompatActivity() {
                 if (response.body()!!.success!!) {
                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                     sessionManager.saveAuthToken(response.body()!!.data!!.token.toString())
+                    sessionManager.saveUser(response.body()!!.data!!.user)
                     Toast.makeText(this@LoginActivity, response.body()!!.message, Toast.LENGTH_SHORT).show()
+
+
 
                 }else{
                     Toast.makeText(this@LoginActivity, response.body()!!.message, Toast.LENGTH_SHORT).show()

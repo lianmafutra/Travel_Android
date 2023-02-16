@@ -14,11 +14,13 @@ import androidx.core.view.isVisible
 import com.app.travel.databinding.ActivityPesanKursiBinding
 import com.app.travel.network.Config
 import com.app.travel.network.Config.URL_PESAN_KURSI
+import com.app.travel.network.SessionManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 class PesanKursiActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPesanKursiBinding
+    private lateinit var sessionManager: SessionManager
 
     object DATA {
         var KURSI_PESANAN: String = ""
@@ -30,6 +32,7 @@ class PesanKursiActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         setSupportActionBar(binding.topAppBar)
+        sessionManager = SessionManager(this)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         binding.webviewKursi.webViewClient = WebViewClient()
@@ -98,10 +101,14 @@ class PesanKursiActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            bundle.putString("id_kursi_dipesan", DATA.KURSI_PESANAN)
+            bundle.putString("id_kursi_pesanan", DATA.KURSI_PESANAN)
+            bundle.putString("id_user", sessionManager.getDataUser()?.id.toString())
+            bundle.putString("id_jadwal", bundle.getString("id_jadwal")!!)
             val intent = Intent(this, PesananDetailActivity::class.java)
             intent.putExtras(bundle)
             startActivity(intent)
+
+
             Toast.makeText(this@PesanKursiActivity, DATA.KURSI_PESANAN.split(",").toTypedArray().toString(), Toast.LENGTH_SHORT).show()
         }
 

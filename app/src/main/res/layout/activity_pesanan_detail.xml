@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    tools:context=".activity.PesananDetailActivity">
+    tools:context=".activity.PesananDetailActivity"
+    tools:visibility="visible">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -13,13 +14,13 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
-            app:navigationIconTint="@color/white"
-            app:elevation="8dp"
-            android:background="@color/purple_700"
-            app:titleTextColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Pesanan Detail" />
+            android:background="@color/purple_700"
+            app:elevation="8dp"
+            app:navigationIconTint="@color/white"
+            app:title="Pesanan Detail"
+            app:titleTextColor="@color/white" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -38,7 +39,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <WebView
                 android:id="@+id/webview_detail_pemesanan"
@@ -47,7 +48,8 @@
                 android:minHeight="400dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="WebViewLayout">
 
             </WebView>
 
@@ -105,10 +107,10 @@
                 tools:layout_conversion_absoluteWidth="371dp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/kembali"
+                android:id="@+id/btn_kembali"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="32dp"
                 android:backgroundTint="@color/material_green800"
                 android:gravity="center"
                 android:text="Kembali"
@@ -120,6 +122,34 @@
                 tools:ignore="DuplicateClickableBoundsCheck"
                 tools:layout_conversion_absoluteHeight="48dp"
                 tools:layout_conversion_absoluteWidth="371dp" />
+
+            <ImageView
+                android:id="@+id/img_bukti"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="32dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@+id/btn_kembali"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_upload_bukti"
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@drawable/placeholder" />
+
+            <TextView
+                android:id="@+id/tv_bukti"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="32dp"
+                android:text="TextView"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/btn_kembali"
+                app:layout_constraintEnd_toEndOf="@+id/img_bukti"
+                app:layout_constraintStart_toStartOf="@+id/img_bukti"
+                app:layout_constraintTop_toBottomOf="@+id/img_bukti"
+                tools:text="File Bukti Pembayaran" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
