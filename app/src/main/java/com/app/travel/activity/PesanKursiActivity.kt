@@ -20,7 +20,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 class PesanKursiActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPesanKursiBinding
 
-    object Apple {
+    object DATA {
         var KURSI_PESANAN: String = ""
     }
     @SuppressLint("SetTextI18n")
@@ -72,26 +72,13 @@ class PesanKursiActivity : AppCompatActivity() {
             ): Boolean {
                 return super.shouldOverrideUrlLoading(view, request)
             }
-
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
             }
-
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 binding.loadingWebview.isVisible = false
             }
-
-            override fun onReceivedHttpError(
-                view: WebView?,
-                request: WebResourceRequest?,
-                errorResponse: WebResourceResponse?
-            ) {
-                Toast.makeText(this@PesanKursiActivity, "Terjadi Kesalahan memuat data", Toast.LENGTH_SHORT).show()
-                super.onReceivedHttpError(view, request, errorResponse)
-
-            }
-
             override fun onRenderProcessGone(
                 view: WebView?,
                 detail: RenderProcessGoneDetail?
@@ -101,11 +88,21 @@ class PesanKursiActivity : AppCompatActivity() {
         }
 
         binding.btnLanjutPesanKursi.setOnClickListener {
-            bundle.putString("id_kursi_dipesan", Apple.KURSI_PESANAN)
+            if(DATA.KURSI_PESANAN == ""){
+                MaterialAlertDialogBuilder(this@PesanKursiActivity)
+                    .setTitle("Kursi Belum dipilih")
+                    .setNegativeButton("Ok") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .show()
+                return@setOnClickListener
+            }
+
+            bundle.putString("id_kursi_dipesan", DATA.KURSI_PESANAN)
             val intent = Intent(this, PesananDetailActivity::class.java)
             intent.putExtras(bundle)
             startActivity(intent)
-            Toast.makeText(this@PesanKursiActivity, Apple.KURSI_PESANAN, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@PesanKursiActivity, DATA.KURSI_PESANAN.split(",").toTypedArray().toString(), Toast.LENGTH_SHORT).show()
         }
 
 
@@ -122,7 +119,7 @@ class PesanKursiActivity : AppCompatActivity() {
         @JavascriptInterface
         fun sendData(kursi_dipilih: String?) {
             this.data=kursi_dipilih;
-            Apple.KURSI_PESANAN = data.toString()
+            DATA.KURSI_PESANAN = data.toString()
 
         }
     }
