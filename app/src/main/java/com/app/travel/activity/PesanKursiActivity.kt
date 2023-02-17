@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.webkit.*
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -81,6 +82,10 @@ class PesanKursiActivity : AppCompatActivity() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 binding.loadingWebview.isVisible = false
+                binding.webviewKursi.layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
             }
             override fun onRenderProcessGone(
                 view: WebView?,
@@ -109,7 +114,7 @@ class PesanKursiActivity : AppCompatActivity() {
             startActivity(intent)
 
 
-            Toast.makeText(this@PesanKursiActivity, DATA.KURSI_PESANAN.split(",").toTypedArray().toString(), Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this@PesanKursiActivity, DATA.KURSI_PESANAN.split(",").toTypedArray().toString(), Toast.LENGTH_SHORT).show()
         }
 
 
