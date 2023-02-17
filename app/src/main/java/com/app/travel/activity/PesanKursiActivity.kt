@@ -5,15 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.webkit.*
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.app.travel.databinding.ActivityPesanKursiBinding
-import com.app.travel.network.Config
 import com.app.travel.network.Config.URL_PESAN_KURSI
 import com.app.travel.network.SessionManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -96,22 +93,24 @@ class PesanKursiActivity : AppCompatActivity() {
         }
 
         binding.btnLanjutPesanKursi.setOnClickListener {
-            if(DATA.KURSI_PESANAN == ""){
+            if(DATA.KURSI_PESANAN.isEmpty()){
                 MaterialAlertDialogBuilder(this@PesanKursiActivity)
                     .setTitle("Kursi Belum dipilih")
                     .setNegativeButton("Ok") { dialog, _ ->
                         dialog.dismiss()
                     }
                     .show()
-                return@setOnClickListener
+
+            }else{
+                bundle.putString("id_kursi_pesanan", DATA.KURSI_PESANAN)
+                bundle.putString("id_user", sessionManager.getDataUser()?.id.toString())
+                bundle.putString("id_jadwal", bundle.getString("id_jadwal")!!)
+                val intent = Intent(this, PesananUploadPembayaran::class.java)
+                intent.putExtras(bundle)
+                startActivity(intent)
             }
 
-            bundle.putString("id_kursi_pesanan", DATA.KURSI_PESANAN)
-            bundle.putString("id_user", sessionManager.getDataUser()?.id.toString())
-            bundle.putString("id_jadwal", bundle.getString("id_jadwal")!!)
-            val intent = Intent(this, PesananDetailActivity::class.java)
-            intent.putExtras(bundle)
-            startActivity(intent)
+
 
 
 //            Toast.makeText(this@PesanKursiActivity, DATA.KURSI_PESANAN.split(",").toTypedArray().toString(), Toast.LENGTH_SHORT).show()

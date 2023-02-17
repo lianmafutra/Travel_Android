@@ -2,15 +2,12 @@ package com.app.travel.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.app.travel.databinding.ActivityLoginActiviryBinding
 import com.app.travel.model.Login
-import com.app.travel.model.User
 import com.app.travel.network.RetrofitService
 import com.app.travel.network.SessionManager
-import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

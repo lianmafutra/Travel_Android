@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    tools:context=".activity.PesananDetail"
+    tools:context=".activity.PesananUploadPembayaran"
     tools:visibility="visible">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Status : Menunggu Verifikasi Admin"
+                android:text="Menunggu Bukti Pembayaran"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -81,26 +81,83 @@
                 android:id="@+id/tv_status_pembayaran_desc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginEnd="24dp"
                 android:gravity="center"
-                android:text="Mohon Tunggu Admin Sedang memverifikasi Pembayaran anda "
+                android:text="Tolong Segera Melakukan Pengunggahan bukti pembayaran untuk menyelesaikan pemesanan"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_status_pembayaran" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_upload_bukti"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="56dp"
+                android:backgroundTint="@color/material_orange800"
+                android:text="Upload Bukti Pembayaran"
+                app:icon="@drawable/baseline_file_upload_24"
+                app:iconGravity="end"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_status_pembayaran_desc"
+                tools:layout_conversion_absoluteHeight="48dp"
+                tools:layout_conversion_absoluteWidth="371dp" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_kembali"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="32dp"
+                android:backgroundTint="@color/material_grey600"
+                android:gravity="center"
+                android:text="Kembali"
+                app:icon="@drawable/baseline_arrow_back_ios_24"
+                app:iconGravity="start"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_proses"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="DuplicateClickableBoundsCheck"
+                tools:layout_conversion_absoluteHeight="48dp"
+                tools:layout_conversion_absoluteWidth="371dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_proses"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="@color/material_green600"
+                android:gravity="center"
+                android:text="Lanjutkan"
+                app:icon="@drawable/baseline_check_24"
+                app:iconGravity="end"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/btn_kembali"
+                app:layout_constraintTop_toTopOf="@+id/btn_kembali"
+                tools:ignore="DuplicateClickableBoundsCheck"
+                tools:layout_conversion_absoluteHeight="48dp"
+                tools:layout_conversion_absoluteWidth="371dp" />
 
             <ImageView
                 android:id="@+id/img_bukti"
                 android:layout_width="125dp"
                 android:layout_height="125dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="32dp"
                 android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@+id/btn_kembali"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_status_pembayaran_desc"
+                app:layout_constraintTop_toBottomOf="@+id/btn_upload_bukti"
+                app:layout_constraintVertical_bias="0.0"
                 app:srcCompat="@drawable/placeholder" />
 
             <TextView
@@ -108,31 +165,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:layout_marginBottom="32dp"
                 android:text="TextView"
                 android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/btn_kembali"
                 app:layout_constraintEnd_toEndOf="@+id/img_bukti"
                 app:layout_constraintStart_toStartOf="@+id/img_bukti"
                 app:layout_constraintTop_toBottomOf="@+id/img_bukti"
                 tools:text="File Bukti Pembayaran" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_kembali"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginBottom="32dp"
-                android:gravity="center"
-                android:text="Kembali Ke Halaman Utama"
-                app:icon="@drawable/baseline_arrow_back_ios_24"
-                app:iconGravity="start"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="DuplicateClickableBoundsCheck"
-                tools:layout_conversion_absoluteHeight="48dp"
-                tools:layout_conversion_absoluteWidth="371dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

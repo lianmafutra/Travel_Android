@@ -1,10 +1,11 @@
 package com.app.travel.network
 
 import com.app.travel.model.*
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.*
+
 
 interface ApiService {
 
@@ -28,6 +29,13 @@ interface ApiService {
     fun jadwalByLokasi(  @Field("lokasi_tujuan") lokasi_tujuan: String?,
                          @Field("lokasi_keberangkatan") lokasi_keberangkatan: String?) : Call<Jadwal>
 
+
+    @POST("api/user/pesanan")
+    fun buatPesanan(@Body body: RequestBody
+    ): Call<BaseResponseApi>
+
+
+
     @GET("api/jadwal/detail/{id_jadwal}")
     fun jadwalDetail(@Query("id_jadwal") id_jadwal: String) : Call<Jadwal>
 
@@ -39,7 +47,7 @@ interface ApiService {
 
     @POST("api/user/logout")
     @FormUrlEncoded
-    suspend fun logout(@Field("token_firebase") token_firebase: String?,): BaseResponseApi
+    suspend fun logout(@Field("token_firebase") token_firebase: String?): BaseResponseApi
 
 
     @POST("api/user/password/lupa")

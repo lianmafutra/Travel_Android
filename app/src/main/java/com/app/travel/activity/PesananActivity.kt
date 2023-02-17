@@ -1,10 +1,10 @@
 package com.app.travel.activity
 
+//noinspection SuspiciousImport
 import android.R
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import com.app.travel.databinding.ActivityInfoAplikasiBinding
+import androidx.appcompat.app.AppCompatActivity
 import com.app.travel.databinding.ActivityPesananBinding
 
 class PesananActivity : AppCompatActivity() {
