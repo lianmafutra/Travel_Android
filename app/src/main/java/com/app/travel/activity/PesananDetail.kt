@@ -18,8 +18,8 @@ class PesananDetail : AppCompatActivity() {
         binding = ActivityPesananDetailBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        setSupportActionBar(binding.topAppBar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+//        setSupportActionBar(binding.topAppBar)
+//        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         binding.btnKembali.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
@@ -30,6 +30,10 @@ class PesananDetail : AppCompatActivity() {
         val id_kursi_pesanan = bundle!!.getString("id_kursi_pesanan")
         val id_user = bundle.getString("id_user")
         val id_jadwal = bundle.getString("id_jadwal")
+
+        binding.swiperefresh.setOnRefreshListener {
+            binding.webviewDetailPemesanan.reload()
+        }
 
         binding.webviewDetailPemesanan.loadUrl(Config.BASE_URL + "/api/pesanan/detail/verifikasi?id_user=$id_user&id_jadwal=$id_jadwal&id_kursi_pesanan=$id_kursi_pesanan")
         binding.webviewDetailPemesanan.webViewClient = WebViewClient()
@@ -64,6 +68,7 @@ class PesananDetail : AppCompatActivity() {
                 )
                 binding.webviewDetailPemesanan.loadUrl("javascript:getData('ad')");
                 binding.loading.isVisible = false
+                binding.swiperefresh.isRefreshing = false
 
             }
 

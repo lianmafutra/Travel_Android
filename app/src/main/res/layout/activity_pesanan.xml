@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    tools:context=".activity.PesananActivity">
+    tools:context=".activity.PesananDetail"
+    tools:visibility="visible">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -13,31 +14,55 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
-            app:navigationIconTint="@color/white"
-            app:elevation="8dp"
-            android:background="@color/purple_700"
-            app:titleTextColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Pesanan" />
+            android:background="@color/purple_700"
+            app:elevation="8dp"
+            app:navigationIconTint="@color/white"
+            app:title="Pesanan Histori"
+            app:titleTextColor="@color/white" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:ignore="SpeakableTextPresentCheck">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:ignore="SpeakableTextPresentCheck">
 
 
-    </androidx.core.widget.NestedScrollView>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_pesanan"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

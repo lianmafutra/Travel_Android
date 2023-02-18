@@ -24,118 +24,108 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swiperefresh"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:ignore="SpeakableTextPresentCheck">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:ignore="SpeakableTextPresentCheck">
 
 
-            <WebView
-                android:id="@+id/webview_detail_pemesanan"
-                android:layout_width="0dp"
-                android:layout_height="400dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="WebViewLayout">
-
-            </WebView>
-
-            <TextView
-                android:id="@+id/tv_status_pembayaran"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Status : Menunggu Verifikasi Admin"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/webview_detail_pemesanan" />
-
-            <ProgressBar
-                android:id="@+id/loading"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/webview_detail_pemesanan"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/webview_detail_pemesanan"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_status_pembayaran_desc"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:gravity="center"
-                android:text="Mohon Tunggu Admin Sedang memverifikasi Pembayaran anda "
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_status_pembayaran" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
 
-            <ImageView
-                android:id="@+id/img_bukti"
-                android:layout_width="125dp"
-                android:layout_height="125dp"
-                android:layout_marginTop="16dp"
-                android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_status_pembayaran_desc"
-                app:srcCompat="@drawable/placeholder" />
 
-            <TextView
-                android:id="@+id/tv_bukti"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="TextView"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="@+id/img_bukti"
-                app:layout_constraintStart_toStartOf="@+id/img_bukti"
-                app:layout_constraintTop_toBottomOf="@+id/img_bukti"
-                tools:text="File Bukti Pembayaran" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_kembali"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginBottom="32dp"
-                android:gravity="center"
-                android:text="Kembali Ke Halaman Utama"
-                app:icon="@drawable/baseline_arrow_back_ios_24"
-                app:iconGravity="start"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="DuplicateClickableBoundsCheck"
-                tools:layout_conversion_absoluteHeight="48dp"
-                tools:layout_conversion_absoluteWidth="371dp" />
+                <WebView
+                    android:id="@+id/webview_detail_pemesanan"
+                    android:layout_width="0dp"
+                    android:layout_height="400dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="WebViewLayout">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+                </WebView>
+
+                <TextView
+                    android:id="@+id/tv_status_pembayaran"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Status : Menunggu Verifikasi Admin"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.497"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/webview_detail_pemesanan" />
+
+                <ProgressBar
+                    android:id="@+id/loading"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/webview_detail_pemesanan"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/webview_detail_pemesanan"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_status_pembayaran_desc"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="32dp"
+                    android:gravity="center"
+                    android:text="Mohon Tunggu Admin Sedang memverifikasi Pembayaran anda "
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_status_pembayaran" />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_kembali"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="32dp"
+                    android:gravity="center"
+                    android:text="Kembali Ke Halaman Utama"
+                    app:icon="@drawable/baseline_arrow_back_ios_24"
+                    app:iconGravity="start"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="DuplicateClickableBoundsCheck"
+                    tools:layout_conversion_absoluteHeight="48dp"
+                    tools:layout_conversion_absoluteWidth="371dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

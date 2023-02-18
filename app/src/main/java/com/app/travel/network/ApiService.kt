@@ -1,6 +1,7 @@
 package com.app.travel.network
 
 import com.app.travel.model.*
+import com.app.travel.model.pesanan.Pesanan
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -33,6 +34,9 @@ interface ApiService {
     @POST("api/user/pesanan")
     fun buatPesanan(@Body body: RequestBody
     ): Call<BaseResponseApi>
+
+    @GET("api/user/pesanan/list")
+    fun pesananRequest() : Call<Pesanan>
 
 
 

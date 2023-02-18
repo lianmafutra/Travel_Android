@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.webkit.*
 import android.widget.LinearLayout
@@ -58,9 +59,6 @@ class PesanKursiActivity : AppCompatActivity() {
                         dialog.dismiss()
                     }
                     .show()
-//                return super.onJsAlert(view, url, message, result)
-
-
                 result!!.cancel();
                 return true
             }
@@ -107,13 +105,10 @@ class PesanKursiActivity : AppCompatActivity() {
                 bundle.putString("id_jadwal", bundle.getString("id_jadwal")!!)
                 val intent = Intent(this, PesananUploadPembayaran::class.java)
                 intent.putExtras(bundle)
+                DATA.KURSI_PESANAN = ""
+                Log.i("id_jadwal", "pesan kursi lanjut :"+  bundle.getString("id_jadwal")!!)
                 startActivity(intent)
             }
-
-
-
-
-//            Toast.makeText(this@PesanKursiActivity, DATA.KURSI_PESANAN.split(",").toTypedArray().toString(), Toast.LENGTH_SHORT).show()
         }
 
 

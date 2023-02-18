@@ -44,7 +44,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.6.0'
-
+    implementation 'androidx.activity:activity:1.2.0-alpha01'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.8.1'
@@ -70,7 +70,8 @@ dependencies {
     implementation "androidx.camera:camera-lifecycle:$mCameraX"
     implementation "androidx.camera:camera-view:$cameraView"
     implementation "androidx.camera:camera-extensions:$cameraView"
-
+    implementation 'com.github.garg-lucifer:AndroidDocumentFilter:0.7.0'
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     //network & HTTP
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
@@ -83,4 +84,5 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
 
     implementation 'com.github.hamzaahmedkhan:SpinnerDialog:v1.2.3'
+
 }

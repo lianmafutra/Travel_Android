@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -65,19 +66,20 @@ class JadwalActivity : AppCompatActivity() ,JadwalAdapter.OnItemClickListener  {
 
     }
 
-    override fun onItemClickedLayananSyarat(layananItem: DataItemJadwal?, s: String) {
+    override fun onItemClickedLayananSyarat(item: DataItemJadwal?, s: String) {
 
         if(s == "pesan"){
             val bundle = Bundle()
-            bundle.putString("id_jadwal", layananItem!!.id.toString())
-
+            bundle.putString("id_jadwal", item!!.id.toString())
+            Log.i("id_jadwal", "onItemClickedLayananSyarat:"+ item.id.toString())
             val intent = Intent(this, PesanKursiActivity::class.java)
             intent.putExtras(bundle)
             startActivity(intent)
+
         }
         if(s=="review"){
             val bundle = Bundle()
-            bundle.putString("id_mobil", layananItem!!.mobilId.toString())
+            bundle.putString("id_mobil", item!!.mobilId.toString())
             val intent = Intent(this, ReviewActivity::class.java)
             intent.putExtras(bundle)
             startActivity(intent)

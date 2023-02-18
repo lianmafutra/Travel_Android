@@ -2,7 +2,6 @@ package com.app.travel.activity
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -11,6 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.MenuItem
 import android.webkit.*
 import android.widget.LinearLayout
@@ -23,7 +23,9 @@ import com.app.travel.databinding.ActivityPesananUploadPembayaranBinding
 import com.app.travel.network.BaseResponseApi
 import com.app.travel.network.Config
 import com.app.travel.network.RetrofitService
+import com.app.travel.utils.DialogLoading
 import com.app.travel.utils.GetFilePath
+import com.app.travel.utils.MainCameraActivity
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -42,34 +44,33 @@ class PesananUploadPembayaran : AppCompatActivity() {
     private var READ_EXTERNAL_STORAGE_PERMISSION_CODE: Int = 2
     private var CAMERA_PERMISSION_CODE: Int = 3
     private lateinit var binding: ActivityPesananUploadPembayaranBinding
-    private var imageUri : Uri? = null;
+    private var imageUri: Uri? = null
     private lateinit var ImgBukti: File
-    var bundle : Bundle? = null
+    var bundle: Bundle? = null
+    val dialog : DialogLoading = DialogLoading(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPesananUploadPembayaranBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        setSupportActionBar(binding.topAppBar);
+        setSupportActionBar(binding.topAppBar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         checkPermission()
 
-
         binding.btnKembali.setOnClickListener {
             onBackPressed()
-
         }
 
         binding.btnProses.setOnClickListener {
 
-            if ( imageUri  == null){
+            if (imageUri == null) {
                 MaterialAlertDialogBuilder(this@PesananUploadPembayaran)
                     .setTitle("Bukti Pembayaran Belum Diupload")
                     .setNegativeButton("Ok") { dialog, _ ->
                         dialog.dismiss()
                     }
                     .show()
-            }else{
+            } else {
 
 
                 MaterialAlertDialogBuilder(this@PesananUploadPembayaran)
@@ -82,9 +83,6 @@ class PesananUploadPembayaran : AppCompatActivity() {
                     }
                     .show()
             }
-
-
-
         }
 
         binding.btnUploadBukti.setOnClickListener {
@@ -100,6 +98,7 @@ class PesananUploadPembayaran : AppCompatActivity() {
                 .create()
                 .show()
 
+
         }
 
 
@@ -108,10 +107,10 @@ class PesananUploadPembayaran : AppCompatActivity() {
         val id_user = bundle!!.getString("id_user")
         val id_jadwal = bundle!!.getString("id_jadwal")
 
+        Log.i("id_jadwal", "PesananUploadPembayaran :"+  id_jadwal)
 
         binding.webviewDetailPemesanan.loadUrl(Config.BASE_URL + "/api/pesanan/detail/bayar?id_user=$id_user&id_jadwal=$id_jadwal&id_kursi_pesanan=$id_kursi_pesanan")
         binding.webviewDetailPemesanan.webViewClient = WebViewClient()
-
 
         binding.webviewDetailPemesanan.settings.javaScriptEnabled = true
         binding.webviewDetailPemesanan.webChromeClient = WebChromeClient()
@@ -119,8 +118,7 @@ class PesananUploadPembayaran : AppCompatActivity() {
             PesanKursiActivity.JavaScriptInterface(
                 this@PesananUploadPembayaran
             ), "Android"
-        );
-
+        )
 
         binding.webviewDetailPemesanan.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(
@@ -140,11 +138,9 @@ class PesananUploadPembayaran : AppCompatActivity() {
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 )
-                binding.webviewDetailPemesanan.loadUrl("javascript:getData('ad')");
+                binding.webviewDetailPemesanan.loadUrl("javascript:getData('ad')")
                 binding.loading.isVisible = false
-
             }
-
             override fun onRenderProcessGone(
                 view: WebView?,
                 detail: RenderProcessGoneDetail?
@@ -152,8 +148,6 @@ class PesananUploadPembayaran : AppCompatActivity() {
                 return super.onRenderProcessGone(view, detail)
             }
         }
-
-
     }
 
     private fun buatPesananRequest() {
@@ -170,33 +164,48 @@ class PesananUploadPembayaran : AppCompatActivity() {
             ImgBukti.asRequestBody("*".toMediaTypeOrNull())
         )
 
+        dialog.startLoadingdialog();
+
         val requestBody = bodyBuilder.build()
-        RetrofitService.create(this).buatPesanan(requestBody).enqueue(object : Callback<BaseResponseApi> {
-            override fun onResponse(call: Call<BaseResponseApi>, response: Response<BaseResponseApi>) {
-                if (response.body()!!.success!!) {
-                    Toast.makeText(this@PesananUploadPembayaran, response.body()!!.message, Toast.LENGTH_SHORT).show()
+        RetrofitService.create(this).buatPesanan(requestBody)
+            .enqueue(object : Callback<BaseResponseApi> {
+                override fun onResponse(
+                    call: Call<BaseResponseApi>,
+                    response: Response<BaseResponseApi>
+                ) {
+                    if (response.body()!!.success!!) {
+                        Toast.makeText(
+                            this@PesananUploadPembayaran,
+                            response.body()!!.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        dialog.dismissdialog();
+                        bundle?.putString("id_kursi_pesanan", id_kursi_pesanan)
+                        bundle?.putString("id_user", id_user)
+                        bundle?.putString("id_jadwal", id_jadwal)
+                        val intent = Intent(this@PesananUploadPembayaran, PesananDetail::class.java)
+                        intent.putExtras(bundle!!)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
 
 
-                    bundle?.putString("id_kursi_pesanan", id_kursi_pesanan)
-                    bundle?.putString("id_user", id_user)
-                    bundle?.putString("id_jadwal", id_jadwal)
-                    val intent = Intent(this@PesananUploadPembayaran, PesananDetail::class.java)
-                    intent.putExtras(bundle!!)
-                    startActivity(intent)
-
-
-                }else{
-                    Toast.makeText(this@PesananUploadPembayaran, response.body()!!.message, Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(
+                            this@PesananUploadPembayaran,
+                            response.body()!!.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        dialog.dismissdialog();
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<BaseResponseApi>, t: Throwable) {
-                Toast.makeText(this@PesananUploadPembayaran, "" + t, Toast.LENGTH_SHORT).show()
-            }
-        })
+                override fun onFailure(call: Call<BaseResponseApi>, t: Throwable) {
+                    dialog.dismissdialog();
+                    Toast.makeText(this@PesananUploadPembayaran, "" + t, Toast.LENGTH_SHORT).show()
+                }
+            })
 
     }
-
 
 
     private fun checkPermission() {
@@ -265,40 +274,24 @@ class PesananUploadPembayaran : AppCompatActivity() {
     }
 
     private fun openCamera() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-                requestPermissions(arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
-            } else {
-                Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                    takePictureIntent.resolveActivity(packageManager)?.also {
-                        resultLauncherCamera.launch(takePictureIntent)
-                    }
-                }
-            }
-        } else {
-            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                takePictureIntent.resolveActivity(packageManager)?.also {
-                    resultLauncherCamera.launch(takePictureIntent)
-                }
-            }
-        }
+        val intent = Intent(this, MainCameraActivity::class.java)
+        getResult.launch(intent)
     }
 
-    private var resultLauncherCamera =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
+    private val getResult =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()) { result ->
+            if(result.resultCode == Activity.RESULT_OK){
                 val data: Intent? = result.data
-                imageUri = data!!.data!!
-                val thumb = data.extras?.get("data") as Bitmap
-                val path: String = GetFilePath.createCopyAndReturnRealPath(this, data.data)!!
-                ImgBukti = File(path)
-                thumb.let {
-                    Glide.with(this)
-                        .load(it)
-                        .into(binding.imgBukti)
+                if (data != null) {
+                    val uri = data.extras?.get("data")!! as Uri
+                    ImgBukti = File(uri.path!!)
+                    imageUri = uri
+                    Glide.with(this).load( uri).into( binding.imgBukti)
                 }
             }
         }
+
 
     private fun openGallery() {
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -309,14 +302,12 @@ class PesananUploadPembayaran : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
-                //the image URI
                 imageUri = data!!.data!!
                 val thumb = if (Build.VERSION.SDK_INT >= 29) {
 
                     val inputStream: InputStream = contentResolver.openInputStream(imageUri!!)!!
                     BitmapFactory.decodeStream(inputStream)
                 } else {
-                    // Use older version
                     MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
                 }
                 val path: String = GetFilePath.createCopyAndReturnRealPath(this, data.data)!!
@@ -329,21 +320,6 @@ class PesananUploadPembayaran : AppCompatActivity() {
                 }
             }
         }
-
-    class JavaScriptInterface internal constructor(c: Context) {
-        private var mContext: Context
-        var data: String? = null
-
-        init {
-            mContext = c
-        }
-
-        @JavascriptInterface
-        fun sendData(id: String?) {
-            this.data = id;
-
-        }
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
