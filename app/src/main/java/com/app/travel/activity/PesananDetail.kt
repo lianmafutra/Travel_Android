@@ -30,12 +30,13 @@ class PesananDetail : AppCompatActivity() {
         val id_kursi_pesanan = bundle!!.getString("id_kursi_pesanan")
         val id_user = bundle.getString("id_user")
         val id_jadwal = bundle.getString("id_jadwal")
+        val kode_pesanan = bundle.getString("kode_pesanan")
 
         binding.swiperefresh.setOnRefreshListener {
             binding.webviewDetailPemesanan.reload()
         }
 
-        binding.webviewDetailPemesanan.loadUrl(Config.BASE_URL + "/api/pesanan/detail/verifikasi?id_user=$id_user&id_jadwal=$id_jadwal&id_kursi_pesanan=$id_kursi_pesanan")
+        binding.webviewDetailPemesanan.loadUrl(Config.BASE_URL + "/api/pesanan/detail/verifikasi?kode_pesanan=$kode_pesanan&id_user=$id_user&id_jadwal=$id_jadwal&id_kursi_pesanan=$id_kursi_pesanan")
         binding.webviewDetailPemesanan.webViewClient = WebViewClient()
 
 

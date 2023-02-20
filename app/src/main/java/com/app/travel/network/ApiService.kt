@@ -31,6 +31,11 @@ interface ApiService {
                          @Field("lokasi_keberangkatan") lokasi_keberangkatan: String?) : Call<Jadwal>
 
 
+
+    @POST("api/pesanan/detail/upload_bukti")
+    fun uploadBukti(@Body body: RequestBody): Call<BaseResponseApi>
+
+
     @POST("api/user/pesanan")
     fun buatPesanan(@Body body: RequestBody
     ): Call<BaseResponseApi>

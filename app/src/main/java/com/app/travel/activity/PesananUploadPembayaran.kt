@@ -47,7 +47,7 @@ class PesananUploadPembayaran : AppCompatActivity() {
     private var imageUri: Uri? = null
     private lateinit var ImgBukti: File
     var bundle: Bundle? = null
-    val dialog : DialogLoading = DialogLoading(this)
+    val dialog: DialogLoading = DialogLoading(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPesananUploadPembayaranBinding.inflate(layoutInflater)
@@ -57,9 +57,6 @@ class PesananUploadPembayaran : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         checkPermission()
 
-        binding.btnKembali.setOnClickListener {
-            onBackPressed()
-        }
 
         binding.btnProses.setOnClickListener {
 
@@ -79,7 +76,7 @@ class PesananUploadPembayaran : AppCompatActivity() {
                         dialog.dismiss()
                     }
                     .setPositiveButton("Ok, Lanjutkan") { dialog, _ ->
-                        buatPesananRequest()
+                        uploadBuktiBayarRequest()
                     }
                     .show()
             }
@@ -106,10 +103,10 @@ class PesananUploadPembayaran : AppCompatActivity() {
         val id_kursi_pesanan = bundle!!.getString("id_kursi_pesanan")
         val id_user = bundle!!.getString("id_user")
         val id_jadwal = bundle!!.getString("id_jadwal")
+        val kode_pesanan = bundle!!.getString("kode_pesanan")
 
-        Log.i("id_jadwal", "PesananUploadPembayaran :"+  id_jadwal)
 
-        binding.webviewDetailPemesanan.loadUrl(Config.BASE_URL + "/api/pesanan/detail/bayar?id_user=$id_user&id_jadwal=$id_jadwal&id_kursi_pesanan=$id_kursi_pesanan")
+        binding.webviewDetailPemesanan.loadUrl(Config.BASE_URL + "/api/pesanan/detail/bayar?kode_pesanan=$kode_pesanan&id_user=$id_user&id_jadwal=$id_jadwal&id_kursi_pesanan=$id_kursi_pesanan")
         binding.webviewDetailPemesanan.webViewClient = WebViewClient()
 
         binding.webviewDetailPemesanan.settings.javaScriptEnabled = true
@@ -141,6 +138,7 @@ class PesananUploadPembayaran : AppCompatActivity() {
                 binding.webviewDetailPemesanan.loadUrl("javascript:getData('ad')")
                 binding.loading.isVisible = false
             }
+
             override fun onRenderProcessGone(
                 view: WebView?,
                 detail: RenderProcessGoneDetail?
@@ -150,24 +148,21 @@ class PesananUploadPembayaran : AppCompatActivity() {
         }
     }
 
-    private fun buatPesananRequest() {
-        bundle = intent.extras
-        val id_kursi_pesanan = bundle!!.getString("id_kursi_pesanan")
-        val id_user = bundle!!.getString("id_user")
-        val id_jadwal = bundle!!.getString("id_jadwal")
+    private fun uploadBuktiBayarRequest() {
+
+
+        val kode_pesanan = bundle!!.getString("kode_pesanan")
         val bodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
-        bodyBuilder.addFormDataPart("jadwal_id", id_jadwal.toString())
-        bodyBuilder.addFormDataPart("id_kursi_pesanan", id_kursi_pesanan.toString())
+        bodyBuilder.addFormDataPart("kode_pesanan", kode_pesanan.toString())
         bodyBuilder.addFormDataPart(
             "img_bukti",
             ImgBukti.name,
             ImgBukti.asRequestBody("*".toMediaTypeOrNull())
         )
-
         dialog.startLoadingdialog();
 
         val requestBody = bodyBuilder.build()
-        RetrofitService.create(this).buatPesanan(requestBody)
+        RetrofitService.create(this).uploadBukti(requestBody)
             .enqueue(object : Callback<BaseResponseApi> {
                 override fun onResponse(
                     call: Call<BaseResponseApi>,
@@ -180,12 +175,23 @@ class PesananUploadPembayaran : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                         dialog.dismissdialog();
+
+                        val id_kursi_pesanan = bundle!!.getString("id_kursi_pesanan")
+                        val id_user = bundle!!.getString("id_user")
+                        val id_jadwal = bundle!!.getString("id_jadwal")
+                        val kode_pesanan = bundle!!.getString("kode_pesanan")
+
                         bundle?.putString("id_kursi_pesanan", id_kursi_pesanan)
                         bundle?.putString("id_user", id_user)
                         bundle?.putString("id_jadwal", id_jadwal)
-                        val intent = Intent(this@PesananUploadPembayaran, PesananDetail::class.java)
+                        bundle?.putString("kode_pesanan", kode_pesanan)
+                        val intent = Intent(
+                            this@PesananUploadPembayaran,
+                            PesananDetail::class.java
+                        )
                         intent.putExtras(bundle!!)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
 
 
@@ -204,6 +210,7 @@ class PesananUploadPembayaran : AppCompatActivity() {
                     Toast.makeText(this@PesananUploadPembayaran, "" + t, Toast.LENGTH_SHORT).show()
                 }
             })
+
 
     }
 
@@ -280,14 +287,15 @@ class PesananUploadPembayaran : AppCompatActivity() {
 
     private val getResult =
         registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()) { result ->
-            if(result.resultCode == Activity.RESULT_OK){
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 if (data != null) {
                     val uri = data.extras?.get("data")!! as Uri
                     ImgBukti = File(uri.path!!)
                     imageUri = uri
-                    Glide.with(this).load( uri).into( binding.imgBukti)
+                    Glide.with(this).load(uri).into(binding.imgBukti)
                 }
             }
         }

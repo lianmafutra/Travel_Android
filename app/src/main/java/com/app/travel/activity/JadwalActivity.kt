@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.travel.adapter.JadwalAdapter
 import com.app.travel.databinding.ActivityJadwalBinding
@@ -49,6 +50,7 @@ class JadwalActivity : AppCompatActivity() ,JadwalAdapter.OnItemClickListener  {
         RetrofitService.create(this).jadwalByLokasi(lokasi_tujuan, lokasi_keberangkatan).enqueue(object : Callback<Jadwal> {
             override fun onResponse(call: Call<Jadwal>, response: Response<Jadwal>) {
                 if (response.isSuccessful) {
+                    binding.progressBar3.isVisible = false
                     val data = response.body()!!.data!!
                     val adapter = JadwalAdapter(
                        data,
@@ -60,6 +62,7 @@ class JadwalActivity : AppCompatActivity() ,JadwalAdapter.OnItemClickListener  {
             }
 
             override fun onFailure(call: Call<Jadwal>, t: Throwable) {
+                binding.progressBar3.isVisible = false
                 Toast.makeText(this@JadwalActivity, "" + t, Toast.LENGTH_SHORT).show()
             }
         })

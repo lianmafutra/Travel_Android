@@ -100,10 +100,20 @@ class PesanKursiActivity : AppCompatActivity() {
                     .show()
 
             }else{
+//                bundle.putString("id_kursi_pesanan", DATA.KURSI_PESANAN)
+//                bundle.putString("id_user", sessionManager.getDataUser()?.id.toString())
+//                bundle.putString("id_jadwal", bundle.getString("id_jadwal")!!)
+//                val intent = Intent(this, PesananUploadPembayaran::class.java)
+//                intent.putExtras(bundle)
+//                DATA.KURSI_PESANAN = ""
+//                Log.i("id_jadwal", "pesan kursi lanjut :"+  bundle.getString("id_jadwal")!!)
+//                startActivity(intent)
+
+
                 bundle.putString("id_kursi_pesanan", DATA.KURSI_PESANAN)
                 bundle.putString("id_user", sessionManager.getDataUser()?.id.toString())
                 bundle.putString("id_jadwal", bundle.getString("id_jadwal")!!)
-                val intent = Intent(this, PesananUploadPembayaran::class.java)
+                val intent = Intent(this, PesananKonfirmasi::class.java)
                 intent.putExtras(bundle)
                 DATA.KURSI_PESANAN = ""
                 Log.i("id_jadwal", "pesan kursi lanjut :"+  bundle.getString("id_jadwal")!!)
@@ -137,6 +147,11 @@ class PesanKursiActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.webviewKursi.reload()
     }
 }
 
