@@ -13,6 +13,10 @@ data class DataItem(
 	@field:SerializedName("created_at")
 	val createdAt: String? = null,
 
+
+	@field:SerializedName("total_biaya")
+	val total_biaya: Int? = null,
+
 	@field:SerializedName("rating_nilai")
 	val ratingNilai: Int? = null,
 

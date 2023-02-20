@@ -83,8 +83,21 @@ class PesananActivity : AppCompatActivity(), PesananAdapter.OnItemClickListener 
             startActivity(intent)
         }
         if (jenis == "review") {
-
+            bundle.putString("kode_pesanan", item!!.kodePesanan.toString())
+            val intent = Intent(this@PesananActivity, KirimReview::class.java)
+            intent.putExtras(bundle)
+            startActivity(intent)
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        pesananRequest();
+    }
+
+    override fun onResume() {
+        super.onResume()
+        pesananRequest()
     }
 
 

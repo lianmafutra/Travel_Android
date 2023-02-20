@@ -36,6 +36,10 @@ interface ApiService {
     fun uploadBukti(@Body body: RequestBody): Call<BaseResponseApi>
 
 
+    @POST("api/pesanan/review")
+    fun kirimReview(@Body body: RequestBody
+    ): Call<BaseResponseApi>
+
     @POST("api/user/pesanan")
     fun buatPesanan(@Body body: RequestBody
     ): Call<BaseResponseApi>

@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.app.travel.databinding.ItemHistoriPesananBinding
 import com.app.travel.model.pesanan.DataItem
+import com.app.travel.utils.convertToRupiah
 
 class PesananAdapter(
     private val dataItem: List<DataItem?>?,
@@ -51,6 +52,20 @@ class PesananAdapter(
 
             binding.tvKodeStruk.text = item.kodePesanan.toString()
 
+            if(item.statusPembayaran == "BELUM") {
+                binding.tvStatus.text = "Menunggu Pembayaran"
+            }
+            if(item.statusPesanan == "SELESAI" && item.ratingKomen.toString().isBlank()) {
+                binding.tvStatus.text = "Pesanan Telah Selesai"
+                binding.btnReview.isVisible = true
+            }
+            if(item.statusPesanan == "TOLAK") {
+                binding.tvStatus.text = "Pesanan Ditolak Admin"
+            }
+
+            binding.tvJadwal.text = item.jadwal!!.lokasiKeberangkatanR!!.nama+" -> "+ item.jadwal.lokasiTujuanR!!.nama
+            binding.tvTotalBiaya.text = item.total_biaya.toString().convertToRupiah()
+            binding.tvTglKeberangkatan.text = item.tglKeberangkatan
 
 
             binding.btnReview.setOnClickListener {
