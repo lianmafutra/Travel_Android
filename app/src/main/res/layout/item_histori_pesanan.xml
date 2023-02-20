@@ -25,19 +25,21 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_pesan"
+                android:id="@+id/btn_bayar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="Bayar"
+                android:visibility="gone"
                 app:icon="@drawable/baseline_navigate_next_24"
                 app:iconGravity="end"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-                tools:ignore="DuplicateClickableBoundsCheck" />
+                tools:ignore="DuplicateClickableBoundsCheck"
+                tools:visibility="visible" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_review"
@@ -47,10 +49,12 @@
                 android:backgroundTint="@color/material_yellow800"
 
                 android:text="Review"
+                android:visibility="gone"
                 app:icon="@drawable/baseline_comment_24"
                 app:iconGravity="end"
-                app:layout_constraintEnd_toStartOf="@+id/btn_pesan"
-                app:layout_constraintTop_toTopOf="@+id/btn_pesan" />
+                app:layout_constraintEnd_toStartOf="@+id/btn_bayar"
+                app:layout_constraintTop_toTopOf="@+id/btn_bayar"
+                tools:visibility="visible" />
 
             <LinearLayout
                 android:id="@+id/linearLayout2"

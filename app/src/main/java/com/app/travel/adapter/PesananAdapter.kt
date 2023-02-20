@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.app.travel.databinding.ItemHistoriPesananBinding
 import com.app.travel.model.pesanan.DataItem
@@ -27,13 +28,18 @@ class PesananAdapter(
     override fun getItemCount(): Int = dataItem!!.size
 
     interface OnItemClickListener {
-        fun onItemClickedLayananSyarat(item: DataItem?)
+        fun onItemClickedLayananSyarat(item: DataItem?, jenis: String)
     }
 
     class Holder(private val binding: ItemHistoriPesananBinding) :
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind(item: DataItem, clickListener: OnItemClickListener, context: Context) {
+
+            if(item.buktiPembayaran == null || item.buktiPembayaran.isEmpty()){
+                binding.btnBayar.isVisible = true
+            }
+
 //
 //            Glide
 //                .with(context)
@@ -48,7 +54,11 @@ class PesananAdapter(
 
 
             binding.btnReview.setOnClickListener {
-                clickListener.onItemClickedLayananSyarat(item)
+                clickListener.onItemClickedLayananSyarat(item, "review")
+            }
+
+            binding.btnBayar.setOnClickListener {
+                clickListener.onItemClickedLayananSyarat(item,"bayar")
             }
 
         }
