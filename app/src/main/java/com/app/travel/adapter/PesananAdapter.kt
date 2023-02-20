@@ -5,12 +5,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.app.travel.R
-import com.app.travel.databinding.ItemPesananBinding
+import com.app.travel.databinding.ItemHistoriPesananBinding
 import com.app.travel.model.pesanan.DataItem
-import com.app.travel.network.Config
-import com.app.travel.utils.convertToRupiah
-import com.bumptech.glide.Glide
 
 class PesananAdapter(
     private val dataItem: List<DataItem?>?,
@@ -19,7 +15,7 @@ class PesananAdapter(
     RecyclerView.Adapter<PesananAdapter.Holder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val itemBinding =
-            ItemPesananBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemHistoriPesananBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return Holder(itemBinding)
     }
 
@@ -34,7 +30,7 @@ class PesananAdapter(
         fun onItemClickedLayananSyarat(item: DataItem?)
     }
 
-    class Holder(private val binding: ItemPesananBinding) :
+    class Holder(private val binding: ItemHistoriPesananBinding) :
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind(item: DataItem, clickListener: OnItemClickListener, context: Context) {
@@ -47,7 +43,7 @@ class PesananAdapter(
 //                .centerCrop()
 //                .into(binding.imgFotoUser);
 
-            binding.tvNamaMobil.text = item.kodePesanan.toString()
+            binding.tvKodeStruk.text = item.kodePesanan.toString()
 
 
 
