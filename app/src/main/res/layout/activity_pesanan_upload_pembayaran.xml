@@ -152,6 +152,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/img_bukti"
                 tools:text="File Bukti Pembayaran" />
 
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/group_lunas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:constraint_referenced_ids="img_bukti,btn_upload_bukti,btn_proses"
+                tools:visibility="visible" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 

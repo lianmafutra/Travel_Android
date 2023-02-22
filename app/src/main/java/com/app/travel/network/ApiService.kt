@@ -1,5 +1,6 @@
 package com.app.travel.network
 
+import com.app.travel.activity.PesananDetail
 import com.app.travel.model.*
 import com.app.travel.model.pesanan.Pesanan
 import okhttp3.MultipartBody
@@ -31,6 +32,10 @@ interface ApiService {
                          @Field("lokasi_keberangkatan") lokasi_keberangkatan: String?) : Call<Jadwal>
 
 
+
+
+    @GET("api/pesanan/detail/{kode_pesanan}")
+    fun pesananDetail(@Path("kode_pesanan") kode_pesanan: String) : Call<Pesanan>
 
     @POST("api/pesanan/detail/upload_bukti")
     fun uploadBukti(@Body body: RequestBody): Call<BaseResponseApi>

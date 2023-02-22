@@ -1,18 +1,22 @@
 package com.app.travel.activity
 
 import android.Manifest
+import android.R
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.webkit.*
+import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,6 +24,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.app.travel.databinding.ActivityPesananUploadPembayaranBinding
+import com.app.travel.model.Lokasi
+import com.app.travel.model.pesanan.Pesanan
 import com.app.travel.network.BaseResponseApi
 import com.app.travel.network.Config
 import com.app.travel.network.RetrofitService
@@ -48,6 +54,7 @@ class PesananUploadPembayaran : AppCompatActivity() {
     private lateinit var ImgBukti: File
     var bundle: Bundle? = null
     val dialog: DialogLoading = DialogLoading(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPesananUploadPembayaranBinding.inflate(layoutInflater)
@@ -57,7 +64,7 @@ class PesananUploadPembayaran : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         checkPermission()
 
-
+        bundle = intent.extras
         binding.btnProses.setOnClickListener {
 
             if (imageUri == null) {
@@ -80,6 +87,8 @@ class PesananUploadPembayaran : AppCompatActivity() {
                     }
                     .show()
             }
+
+
         }
 
         binding.btnUploadBukti.setOnClickListener {
@@ -99,7 +108,7 @@ class PesananUploadPembayaran : AppCompatActivity() {
         }
 
 
-        bundle = intent.extras
+
         val id_kursi_pesanan = bundle!!.getString("id_kursi_pesanan")
         val id_user = bundle!!.getString("id_user")
         val id_jadwal = bundle!!.getString("id_jadwal")
@@ -146,6 +155,37 @@ class PesananUploadPembayaran : AppCompatActivity() {
                 return super.onRenderProcessGone(view, detail)
             }
         }
+        pesananDetail(bundle!!.getString("kode_pesanan")!!)
+
+    }
+//    end
+
+
+    private fun pesananDetail(kode_pesanan: String) {
+        RetrofitService.create(this).pesananDetail(kode_pesanan).enqueue(object : Callback<Pesanan> {
+            override fun onResponse(call: Call<Pesanan>, response: Response<Pesanan>) {
+                if (response.isSuccessful) {
+                    val data = response.body()
+
+                   if(data!!.data!![0]!!.statusPembayaran == "LUNAS"){
+                       binding.groupLunas.visibility = View.INVISIBLE
+                       binding.tvStatusPembayaran.text = "Pembayaran Terkonfirmasi"
+                       binding.tvStatusPembayaranDesc.text = "Pesanan anda telah berhasil dibuat dan dikonfirmasi oleh admin"
+                       binding.tvStatusPembayaran.setTextColor(Color.parseColor("#007c00"));
+                   }
+                    else if(data.data!![0]!!.statusPembayaran == "BELUM"){
+                        binding.groupLunas.visibility = View.VISIBLE
+                       binding.tvStatusPembayaran.text = "Menunggu Konfirmasi Admin"
+                       binding.tvStatusPembayaranDesc.text = "Tolong Segera Melakukan Pengunggahan bukti pembayaran untuk menyelesaikan pemesanan"
+                    }
+                }
+            }
+            override fun onFailure(call: Call<Pesanan>, t: Throwable) {
+                Toast.makeText(this@PesananUploadPembayaran, "" + t, Toast.LENGTH_SHORT).show()
+            }
+        })
+
+
     }
 
     private fun uploadBuktiBayarRequest() {

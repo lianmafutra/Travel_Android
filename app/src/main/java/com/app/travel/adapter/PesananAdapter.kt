@@ -2,6 +2,7 @@ package com.app.travel.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -52,14 +53,29 @@ class PesananAdapter(
 
             binding.tvKodeStruk.text = item.kodePesanan.toString()
 
-            if(item.statusPembayaran == "BELUM") {
+            if(item.statusPembayaran == "BELUM" && item.buktiPembayaran == null) {
+                binding.btnBayar.isVisible = true
                 binding.tvStatus.text = "Menunggu Pembayaran"
             }
+            if(item.statusPembayaran == "BELUM" && (item.buktiPembayaran != null && item.buktiPembayaran != "")) {
+                binding.btnBayar.isVisible = true
+                binding.tvStatus.text = "Menunggu Konfirmasi Admin"
+            }
+
+            else if(item.statusPembayaran == "LUNAS"  && item.buktiPembayaran.toString().isNotBlank()) {
+                binding.btnBayar.isVisible = true
+                binding.tvStatus.text = "Pembayaran Telah Lunas"
+                binding.tvStatus.setTextColor(Color.parseColor("#007c00"));
+            }
+
+
             if(item.statusPesanan == "SELESAI" && item.ratingKomen.toString().isBlank()) {
                 binding.tvStatus.text = "Pesanan Telah Selesai"
                 binding.btnReview.isVisible = true
             }
+
             if(item.statusPesanan == "TOLAK") {
+                binding.btnBayar.isVisible = true
                 binding.tvStatus.text = "Pesanan Ditolak Admin"
             }
 
