@@ -71,7 +71,7 @@ class PesananActivity : AppCompatActivity(), PesananAdapter.OnItemClickListener 
     }
 
 
-    override fun onItemClickedLayananSyarat(item: DataItem?, jenis: String) {
+    override fun onItemClick(item: DataItem?, jenis: String) {
         val bundle = Bundle()
         if (jenis == "bayar") {
             bundle.putString("id_kursi_pesanan", null)
@@ -84,6 +84,7 @@ class PesananActivity : AppCompatActivity(), PesananAdapter.OnItemClickListener 
         }
         if (jenis == "review") {
             bundle.putString("kode_pesanan", item!!.kodePesanan.toString())
+            bundle.putString("id_mobil", item.mobilId.toString())
             val intent = Intent(this@PesananActivity, KirimReview::class.java)
             intent.putExtras(bundle)
             startActivity(intent)

@@ -1,5 +1,6 @@
 package com.app.travel.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
@@ -27,9 +28,20 @@ class KirimReview : AppCompatActivity() {
         setSupportActionBar(binding.topAppBar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
+        val bundle2 = intent.extras
+        val idMobil = bundle2!!.getString("id_mobil")
+        binding.btnLihatSemuaReview.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("id_mobil", idMobil)
+            val intent = Intent(this, ReviewActivity::class.java)
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
 
         binding.btnKirimReview.setOnClickListener {
-            if(binding.bintangReview2.rating.toString() == "" || binding.bintangReview2.rating.toString() == "0"){
+
+
+            if(binding.bintangReview2.rating.toString() == "0.0" ){
                 MaterialAlertDialogBuilder(this@KirimReview)
                     .setTitle("Review Bintang belum diisi")
                     .setNegativeButton("Ok") { dialog, _ ->

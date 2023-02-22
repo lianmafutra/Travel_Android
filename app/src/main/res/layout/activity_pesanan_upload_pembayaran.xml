@@ -59,13 +59,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Menunggu Bukti Pembayaran"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/webview_detail_pemesanan" />
+                app:layout_constraintTop_toBottomOf="@+id/webview_detail_pemesanan"
+                tools:text="Menunggu Bukti Pembayaran" />
 
             <ProgressBar
                 android:id="@+id/loading"
@@ -85,11 +85,11 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
                 android:gravity="center"
-                android:text="Tolong Segera Melakukan Pengunggahan bukti pembayaran untuk menyelesaikan pemesanan"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_status_pembayaran" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_status_pembayaran"
+                tools:text="Tolong Segera Melakukan Pengunggahan bukti pembayaran untuk menyelesaikan pemesanan" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_upload_bukti"

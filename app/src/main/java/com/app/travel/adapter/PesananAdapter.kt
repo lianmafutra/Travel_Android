@@ -30,7 +30,7 @@ class PesananAdapter(
     override fun getItemCount(): Int = dataItem!!.size
 
     interface OnItemClickListener {
-        fun onItemClickedLayananSyarat(item: DataItem?, jenis: String)
+        fun onItemClick(item: DataItem?, jenis: String)
     }
 
     class Holder(private val binding: ItemHistoriPesananBinding) :
@@ -56,22 +56,19 @@ class PesananAdapter(
             if(item.statusPembayaran == "BELUM" && item.buktiPembayaran == null) {
                 binding.btnBayar.isVisible = true
                 binding.tvStatus.text = "Menunggu Pembayaran"
+                binding.tvStatus.setTextColor(Color.parseColor("#FFA500"));
             }
             if(item.statusPembayaran == "BELUM" && (item.buktiPembayaran != null && item.buktiPembayaran != "")) {
                 binding.btnBayar.isVisible = true
                 binding.tvStatus.text = "Menunggu Konfirmasi Admin"
+                binding.tvStatus.setTextColor(Color.parseColor("#3523a9"));
             }
 
-            else if(item.statusPembayaran == "LUNAS"  && item.buktiPembayaran.toString().isNotBlank()) {
+            else if(item.statusPembayaran == "LUNAS") {
                 binding.btnBayar.isVisible = true
+                binding.btnReview.isVisible = true
                 binding.tvStatus.text = "Pembayaran Telah Lunas"
                 binding.tvStatus.setTextColor(Color.parseColor("#007c00"));
-            }
-
-
-            if(item.statusPesanan == "SELESAI" && item.ratingKomen.toString().isBlank()) {
-                binding.tvStatus.text = "Pesanan Telah Selesai"
-                binding.btnReview.isVisible = true
             }
 
             if(item.statusPesanan == "TOLAK") {
@@ -85,11 +82,11 @@ class PesananAdapter(
 
 
             binding.btnReview.setOnClickListener {
-                clickListener.onItemClickedLayananSyarat(item, "review")
+                clickListener.onItemClick(item, "review")
             }
 
             binding.btnBayar.setOnClickListener {
-                clickListener.onItemClickedLayananSyarat(item,"bayar")
+                clickListener.onItemClick(item,"bayar")
             }
 
         }

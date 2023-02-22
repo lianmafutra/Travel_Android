@@ -1,7 +1,6 @@
 package com.app.travel.activity
 
 import android.Manifest
-import android.R
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,11 +11,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.webkit.*
-import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -24,7 +21,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.app.travel.databinding.ActivityPesananUploadPembayaranBinding
-import com.app.travel.model.Lokasi
 import com.app.travel.model.pesanan.Pesanan
 import com.app.travel.network.BaseResponseApi
 import com.app.travel.network.Config
@@ -41,6 +37,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import android.R
 import java.io.InputStream
 
 
@@ -60,8 +57,11 @@ class PesananUploadPembayaran : AppCompatActivity() {
         binding = ActivityPesananUploadPembayaranBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+
         setSupportActionBar(binding.topAppBar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
         checkPermission()
 
         bundle = intent.extras
@@ -106,7 +106,6 @@ class PesananUploadPembayaran : AppCompatActivity() {
 
 
         }
-
 
 
         val id_kursi_pesanan = bundle!!.getString("id_kursi_pesanan")
@@ -162,28 +161,40 @@ class PesananUploadPembayaran : AppCompatActivity() {
 
 
     private fun pesananDetail(kode_pesanan: String) {
-        RetrofitService.create(this).pesananDetail(kode_pesanan).enqueue(object : Callback<Pesanan> {
-            override fun onResponse(call: Call<Pesanan>, response: Response<Pesanan>) {
-                if (response.isSuccessful) {
-                    val data = response.body()
+        RetrofitService.create(this).pesananDetail(kode_pesanan)
+            .enqueue(object : Callback<Pesanan> {
+                override fun onResponse(call: Call<Pesanan>, response: Response<Pesanan>) {
+                    if (response.isSuccessful) {
+                        val data = response.body()
 
-                   if(data!!.data!![0]!!.statusPembayaran == "LUNAS"){
-                       binding.groupLunas.visibility = View.INVISIBLE
-                       binding.tvStatusPembayaran.text = "Pembayaran Terkonfirmasi"
-                       binding.tvStatusPembayaranDesc.text = "Pesanan anda telah berhasil dibuat dan dikonfirmasi oleh admin"
-                       binding.tvStatusPembayaran.setTextColor(Color.parseColor("#007c00"));
-                   }
-                    else if(data.data!![0]!!.statusPembayaran == "BELUM"){
-                        binding.groupLunas.visibility = View.VISIBLE
-                       binding.tvStatusPembayaran.text = "Menunggu Konfirmasi Admin"
-                       binding.tvStatusPembayaranDesc.text = "Tolong Segera Melakukan Pengunggahan bukti pembayaran untuk menyelesaikan pemesanan"
+                        if (data!!.data!![0]!!.statusPembayaran == "LUNAS") {
+                            binding.groupLunas.visibility = View.INVISIBLE
+                            binding.tvStatusPembayaran.text = "Pembayaran Terkonfirmasi"
+                            binding.tvStatusPembayaranDesc.text =
+                                "Pesanan anda telah berhasil dibuat dan dikonfirmasi oleh admin"
+                            binding.tvStatusPembayaran.setTextColor(Color.parseColor("#007c00"));
+                        }
+
+                        else if (data.data!![0]!!.statusPembayaran == "BELUM" && (data.data[0]!!.buktiPembayaran != null && data.data[0]!!.buktiPembayaran != "")) {
+                            binding.groupLunas.visibility = View.INVISIBLE
+                            binding.tvStatusPembayaran.text = "Menunggu Konfirmasi Admin"
+                            binding.tvStatusPembayaranDesc.text =
+                                "Admin sedang memverifikasi bukti Pembayaran"
+                        }
+
+                        else if (data.data!![0]!!.statusPembayaran == "BELUM" && data.data[0]!!.buktiPembayaran == null ) {
+                            binding.groupLunas.visibility = View.VISIBLE
+                            binding.tvStatusPembayaran.text = "Menunggu Pembayaran"
+                            binding.tvStatusPembayaranDesc.text =
+                                "Tolong Segera Melakukan Pengunggahan bukti pembayaran untuk menyelesaikan pemesanan"
+                        }
                     }
                 }
-            }
-            override fun onFailure(call: Call<Pesanan>, t: Throwable) {
-                Toast.makeText(this@PesananUploadPembayaran, "" + t, Toast.LENGTH_SHORT).show()
-            }
-        })
+
+                override fun onFailure(call: Call<Pesanan>, t: Throwable) {
+                    Toast.makeText(this@PesananUploadPembayaran, "" + t, Toast.LENGTH_SHORT).show()
+                }
+            })
 
 
     }
@@ -371,7 +382,7 @@ class PesananUploadPembayaran : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            androidx.appcompat.R.id.home -> {
+          R.id.home -> {
                 onBackPressed()
             }
         }
