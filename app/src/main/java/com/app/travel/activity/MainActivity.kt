@@ -4,9 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.app.travel.R
 import com.app.travel.databinding.ActivityMainBinding
 import com.app.travel.model.UserDetail
+import com.app.travel.network.Config
 import com.app.travel.network.RetrofitService
+import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,12 +48,26 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        userDetailRequest()
+    }
+
     private fun userDetailRequest() {
+        val options: RequestOptions = RequestOptions()
+            .centerCrop()
+            .placeholder(R.drawable.loader_circle)
+            .error(R.drawable.ic_user)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .priority(Priority.HIGH)
+            .dontAnimate()
+            .dontTransform()
         RetrofitService.create(this).userDetail().enqueue(object : Callback<UserDetail> {
             override fun onResponse(call: Call<UserDetail>, response: Response<UserDetail>) {
                 if (response.isSuccessful) {
                     val data = response.body()!!.data!!
                     binding.tvNama.text = data.namaLengkap.toString()
+                    Glide.with(this@MainActivity).load(Config.URL_STORAGE +data.foto).apply(options).into(binding.imgFoto)
                 }
             }
 

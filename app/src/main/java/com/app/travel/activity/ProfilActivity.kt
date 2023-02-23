@@ -59,6 +59,7 @@ class ProfilActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         sessionManager = SessionManager(this)
+
         setSupportActionBar(binding.topAppBar);
         supportActionBar!!.setDisplayHomeAsUpEnabled(true);
 
@@ -182,7 +183,7 @@ class ProfilActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            androidx.appcompat.R.id.home -> {
+            android.R.id.home -> {
                 onBackPressed()
             }
         }
@@ -337,5 +338,7 @@ class ProfilActivity : AppCompatActivity() {
             })
 
     }
+
+
 
 }
