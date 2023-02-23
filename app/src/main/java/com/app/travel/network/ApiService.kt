@@ -67,6 +67,10 @@ interface ApiService {
      fun logout(@Field("token_firebase") token_firebase: String?): Call<BaseResponseApi>
 
 
+    @GET("/api/pesanan/notif/count")
+    fun notifCount() : Call<NotifCount>
+
+
     @POST("api/user/password/lupa")
     @FormUrlEncoded
      fun lupaPassword(

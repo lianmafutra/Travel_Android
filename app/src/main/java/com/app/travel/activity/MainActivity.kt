@@ -4,8 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.app.travel.R
 import com.app.travel.databinding.ActivityMainBinding
+import com.app.travel.model.NotifCount
 import com.app.travel.model.UserDetail
 import com.app.travel.network.Config
 import com.app.travel.network.RetrofitService
@@ -45,12 +47,38 @@ class MainActivity : AppCompatActivity() {
         }
 
         userDetailRequest()
+        notifCountRequest()
 
     }
 
     override fun onResume() {
         super.onResume()
         userDetailRequest()
+        notifCountRequest()
+    }
+
+
+
+    private fun notifCountRequest() {
+
+        RetrofitService.create(this).notifCount().enqueue(object : Callback<NotifCount> {
+            override fun onResponse(call: Call<NotifCount>, response: Response<NotifCount>) {
+                if (response.isSuccessful) {
+                    val data = response.body()!!.data!!
+
+                    if(data > 0){
+                        binding.tvNotifCount.isVisible = true
+                        binding.tvNotifCount.text = data.toString()
+                    }
+
+                }
+            }
+
+            override fun onFailure(call: Call<NotifCount>, t: Throwable) {
+                Toast.makeText(this@MainActivity, "" + t, Toast.LENGTH_SHORT).show()
+            }
+        })
+
     }
 
     private fun userDetailRequest() {
