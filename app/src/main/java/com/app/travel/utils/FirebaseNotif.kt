@@ -81,7 +81,7 @@ class NotificationService : FirebaseMessagingService() {
     }
 
     private val notificationIcon: Int
-        private get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             R.mipmap.ic_launcher
         } else R.mipmap.ic_launcher
 

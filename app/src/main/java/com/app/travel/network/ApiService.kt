@@ -1,9 +1,7 @@
 package com.app.travel.network
 
-import com.app.travel.activity.PesananDetail
 import com.app.travel.model.*
 import com.app.travel.model.pesanan.Pesanan
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -65,36 +63,39 @@ interface ApiService {
 
     @POST("api/user/logout")
     @FormUrlEncoded
-    suspend fun logout(@Field("token_firebase") token_firebase: String?): BaseResponseApi
+     fun logout(@Field("token_firebase") token_firebase: String?): Call<BaseResponseApi>
 
 
     @POST("api/user/password/lupa")
     @FormUrlEncoded
-    suspend fun lupaPassword(
+     fun lupaPassword(
         @Field("nik") nik: String?,
         @Field("kk") kk: String?,
         @Field("email") email: String?,
         @Field("password_baru") password_baru: String?
-    ): BaseResponseApi
+    ): Call<BaseResponseApi>
 
-    @POST("api/user/data/ubah")
+    @POST("api/user/profil/update")
     @FormUrlEncoded
-    suspend fun editData(
+     fun updateProfil(
+        @Field("nama_lengkap") nama_lengkap: String?,
         @Field("email") email: String?,
-        @Field("no_hp") no_hp: String?,
-    ): BaseResponseApi
+        @Field("kontak") kontak: String?,
+        @Field("alamat") alamat: String?,
+        @Field("jenis_kelamin") jenis_kelamin: String?,
+    ): Call<BaseResponseApi>
 
     @POST("api/user/password/ubah")
     @FormUrlEncoded
-    suspend fun ubahPassword(
+     fun ubahPassword(
         @Field("password_lama") password_lama: String?,
         @Field("password_baru") password_baru: String?
-    ): BaseResponseApi
+    ): Call<BaseResponseApi>
 
     @Multipart
     @POST("api/user/register")
-    suspend fun register(
+     fun register(
         @PartMap() partMap: MutableMap<String, RequestBody>,
-    ): BaseResponseApi
+    ): Call<BaseResponseApi>
 
 }

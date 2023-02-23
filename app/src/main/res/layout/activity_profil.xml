@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    tools:context=".activity.RegisterActivity">
+    tools:context=".activity.ProfilActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -13,21 +13,21 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
-            app:navigationIconTint="@color/white"
-            app:elevation="8dp"
-            android:background="@color/purple_700"
-            app:titleTextColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Info Akun" />
+            android:background="@color/purple_700"
+            app:elevation="8dp"
+            app:navigationIconTint="@color/white"
+            app:title="Info Akun"
+            app:titleTextColor="@color/white" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -111,6 +111,42 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="32dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="Jenis Kelamin : "
+                    android:layout_height="wrap_content"/>
+                <RadioGroup
+                    android:id="@+id/radioGroupJenkel"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radio_laki"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:text="Laki-Laki" />
+
+                    <RadioButton
+                        android:id="@+id/radio_perempuan"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Perempuan" />
+
+
+                </RadioGroup>
+            </LinearLayout>
+
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/kontak"
                 android:layout_width="match_parent"
@@ -123,7 +159,7 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                     android:id="@+id/edt_kontak"
+                    android:id="@+id/edt_kontak"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="phone"
@@ -145,10 +181,10 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_alamat"
-                    android:gravity="start"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:inputType="phone"
+                    android:gravity="start"
+
                     tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -157,9 +193,9 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_update_profil"
                 style="@style/button_global"
-                android:layout_gravity="end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="32dp"
@@ -170,19 +206,15 @@
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout" />
 
             <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-                android:orientation="vertical"
-            android:gravity="center|bottom">
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:gravity="center|bottom"
+                android:orientation="vertical">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_ubah_pass"
                     style="@style/button_global_secondary"
-                    app:icon="@drawable/baseline_vpn_key_24"
-                    app:iconSize="20dp"
-                    app:iconTint="@color/white"
-                    app:iconGravity="end"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
@@ -190,30 +222,33 @@
                     android:layout_marginEnd="32dp"
                     android:layout_marginBottom="10dp"
                     android:text="Ubah Password"
+                    app:icon="@drawable/baseline_vpn_key_24"
+                    app:iconGravity="end"
+                    app:iconSize="20dp"
+                    app:iconTint="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
                     app:layout_constraintStart_toStartOf="@+id/textInputLayout" />
 
 
                 <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_logout"
-                app:icon="@drawable/baseline_exit_to_app_24"
-                app:iconSize="20dp"
-                app:iconTint="@color/white"
-                app:iconGravity="end"
-                style="@style/button_global_red"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginBottom="20dp"
-                android:text="Logout Akun"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
-                app:layout_constraintStart_toStartOf="@+id/textInputLayout" />
+                    android:id="@+id/btn_logout"
+                    style="@style/button_global_red"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="Logout Akun"
+                    app:icon="@drawable/baseline_exit_to_app_24"
+                    app:iconGravity="end"
+                    app:iconSize="20dp"
+                    app:iconTint="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
+                    app:layout_constraintStart_toStartOf="@+id/textInputLayout" />
 
-        </LinearLayout>
-
+            </LinearLayout>
 
 
         </LinearLayout>
