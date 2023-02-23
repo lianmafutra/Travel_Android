@@ -53,6 +53,10 @@ interface ApiService {
     @GET("api/user/pesanan/list")
     fun pesananRequest() : Call<Pesanan>
 
+    @POST("api/user/password/update")
+    fun updatePassword(@Body body: RequestBody
+    ): Call<BaseResponseApi>
+
 
 
     @GET("api/jadwal/detail/{id_jadwal}")
