@@ -38,7 +38,9 @@ interface ApiService {
     @POST("api/pesanan/detail/upload_bukti")
     fun uploadBukti(@Body body: RequestBody): Call<BaseResponseApi>
 
-
+    @POST("api/user/register")
+    fun registerUser(@Body body: RequestBody
+    ): Call<BaseResponseApi>
 
     @POST("api/pesanan/review")
     fun kirimReview(@Body body: RequestBody

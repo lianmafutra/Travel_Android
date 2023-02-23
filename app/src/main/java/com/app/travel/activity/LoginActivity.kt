@@ -34,6 +34,27 @@ class LoginActivity : AppCompatActivity() {
             loginRequest(binding.edtEmail1.text.toString(), binding.edtPassword.text.toString())
         }
 
+        val mIntent = intent
+
+
+        if (mIntent!=null){
+            val email = mIntent.getStringExtra("email")
+            binding.edtEmail1.setText(email)
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val mIntent = intent
+
+
+        if (mIntent!=null){
+            val email = mIntent.getStringExtra("email")
+            binding.edtEmail1.setText(email)
+        }
+
+
 
     }
 
