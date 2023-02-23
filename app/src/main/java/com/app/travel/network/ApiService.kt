@@ -39,6 +39,7 @@ interface ApiService {
     fun uploadBukti(@Body body: RequestBody): Call<BaseResponseApi>
 
 
+
     @POST("api/pesanan/review")
     fun kirimReview(@Body body: RequestBody
     ): Call<BaseResponseApi>
@@ -84,6 +85,10 @@ interface ApiService {
         @Field("alamat") alamat: String?,
         @Field("jenis_kelamin") jenis_kelamin: String?,
     ): Call<BaseResponseApi>
+
+
+    @POST("api/user/profil/foto/update")
+    fun updateFoto(@Body body: RequestBody): Call<BaseResponseApi>
 
     @POST("api/user/password/ubah")
     @FormUrlEncoded
