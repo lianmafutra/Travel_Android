@@ -9,12 +9,15 @@ import com.app.travel.R
 import com.app.travel.databinding.ActivityMainBinding
 import com.app.travel.model.NotifCount
 import com.app.travel.model.UserDetail
+import com.app.travel.network.BaseResponseApi
 import com.app.travel.network.Config
 import com.app.travel.network.RetrofitService
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -48,6 +51,7 @@ class MainActivity : AppCompatActivity() {
 
         userDetailRequest()
         notifCountRequest()
+        insertTokenUser()
 
     }
 
@@ -57,15 +61,11 @@ class MainActivity : AppCompatActivity() {
         notifCountRequest()
     }
 
-
-
     private fun notifCountRequest() {
-
         RetrofitService.create(this).notifCount().enqueue(object : Callback<NotifCount> {
             override fun onResponse(call: Call<NotifCount>, response: Response<NotifCount>) {
                 if (response.isSuccessful) {
                     val data = response.body()!!.data!!
-
                     if(data > 0){
                         binding.tvNotifCount.isVisible = true
                         binding.tvNotifCount.text = data.toString()
@@ -81,7 +81,42 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun insertTokenUser() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Toast.makeText(this, task.exception.toString(), Toast.LENGTH_SHORT).show()
+                return@OnCompleteListener
+            }
+            val token = task.result
+            RetrofitService.create(this).insertTokenFCM(token)
+                .enqueue(object : Callback<BaseResponseApi> {
+                    override fun onResponse(
+                        call: Call<BaseResponseApi>,
+                        response: Response<BaseResponseApi>
+                    ) {
+                        if (response.body()!!.success!!) {
+
+                        } else {
+                            Toast.makeText(
+                                this@MainActivity,
+                                response.body()!!.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<BaseResponseApi>, t: Throwable) {
+                        Toast.makeText(this@MainActivity, "" + t, Toast.LENGTH_SHORT).show()
+                    }
+                })
+        })
+
+
+    }
+
+
     private fun userDetailRequest() {
+
         val options: RequestOptions = RequestOptions()
             .centerCrop()
             .placeholder(R.drawable.loader_circle)
@@ -90,6 +125,7 @@ class MainActivity : AppCompatActivity() {
             .priority(Priority.HIGH)
             .dontAnimate()
             .dontTransform()
+
         RetrofitService.create(this).userDetail().enqueue(object : Callback<UserDetail> {
             override fun onResponse(call: Call<UserDetail>, response: Response<UserDetail>) {
                 if (response.isSuccessful) {
