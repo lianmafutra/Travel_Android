@@ -53,12 +53,17 @@ class PesananAdapter(
 
             binding.tvKodeStruk.text = item.kodePesanan.toString()
 
-            if(item.statusPembayaran == "BELUM" && item.buktiPembayaran == null) {
+            if(item.statusPesanan == "DIBATALKAN") {
+                binding.btnBayar.isVisible = false
+                binding.tvStatus.text = "Pesanan telah anda batalkan"
+                binding.tvStatus.setTextColor(Color.parseColor("#dc3545"));
+            }
+            else if(item.statusPembayaran == "BELUM" && item.buktiPembayaran == null) {
                 binding.btnBayar.isVisible = true
                 binding.tvStatus.text = "Menunggu Pembayaran"
                 binding.tvStatus.setTextColor(Color.parseColor("#FFA500"));
             }
-            if(item.statusPembayaran == "BELUM" && (item.buktiPembayaran != null && item.buktiPembayaran != "")) {
+            else if(item.statusPembayaran == "BELUM" && (item.buktiPembayaran != null && item.buktiPembayaran != "")) {
                 binding.btnBayar.isVisible = true
                 binding.tvStatus.text = "Menunggu Konfirmasi Admin"
                 binding.tvStatus.setTextColor(Color.parseColor("#3523a9"));
@@ -71,7 +76,7 @@ class PesananAdapter(
                 binding.tvStatus.setTextColor(Color.parseColor("#007c00"));
             }
 
-            if(item.statusPesanan == "TOLAK") {
+            else if(item.statusPesanan == "TOLAK") {
                 binding.btnBayar.isVisible = true
                 binding.tvStatus.text = "Pesanan Ditolak Admin"
             }

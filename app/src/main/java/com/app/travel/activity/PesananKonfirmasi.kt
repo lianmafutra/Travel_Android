@@ -125,6 +125,7 @@ class PesananKonfirmasi : AppCompatActivity() {
                     if (response.body()!!.success!!) {
 
                         dialog.dismissdialog();
+                        bundle?.putBoolean("konfirmasi", true)
                         bundle?.putString("id_kursi_pesanan", id_kursi_pesanan)
                         bundle?.putString("id_user", id_user)
                         bundle?.putString("id_jadwal", id_jadwal)

@@ -15,6 +15,7 @@ import com.app.travel.databinding.ActivityJadwalBinding
 import com.app.travel.model.DataItemJadwal
 import com.app.travel.model.Jadwal
 import com.app.travel.network.RetrofitService
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -72,13 +73,21 @@ class JadwalActivity : AppCompatActivity() ,JadwalAdapter.OnItemClickListener  {
     override fun onItemClickedLayananSyarat(item: DataItemJadwal?, s: String) {
 
         if(s == "pesan"){
-            val bundle = Bundle()
-            bundle.putString("id_jadwal", item!!.id.toString())
-            Log.i("id_jadwal", "onItemClickedLayananSyarat:"+ item.id.toString())
-            val intent = Intent(this, PesanKursiActivity::class.java)
-            intent.putExtras(bundle)
-            startActivity(intent)
-
+            if(item?.status =="penuh"){
+                MaterialAlertDialogBuilder(this@JadwalActivity)
+                    .setTitle("Maaf Kursi Sudah Penuh")
+                    .setNegativeButton("Ok") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .show()
+            }else{
+                val bundle = Bundle()
+                bundle.putString("id_jadwal", item!!.id.toString())
+                Log.i("id_jadwal", "onItemClickedLayananSyarat:"+ item.id.toString())
+                val intent = Intent(this, PesanKursiActivity::class.java)
+                intent.putExtras(bundle)
+                startActivity(intent)
+            }
         }
         if(s=="review"){
             val bundle = Bundle()

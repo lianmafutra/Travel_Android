@@ -1,6 +1,7 @@
 package com.app.travel.activity
 
 import android.Manifest
+import android.R
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -37,7 +38,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
-import android.R
 import java.io.InputStream
 
 
@@ -68,41 +68,38 @@ class PesananUploadPembayaran : AppCompatActivity() {
         binding.btnProses.setOnClickListener {
 
             if (imageUri == null) {
-                MaterialAlertDialogBuilder(this@PesananUploadPembayaran)
-                    .setTitle("Bukti Pembayaran Belum Diupload")
+                MaterialAlertDialogBuilder(this@PesananUploadPembayaran).setTitle("Bukti Pembayaran Belum Diupload")
                     .setNegativeButton("Ok") { dialog, _ ->
                         dialog.dismiss()
-                    }
-                    .show()
+                    }.show()
             } else {
-
-
-                MaterialAlertDialogBuilder(this@PesananUploadPembayaran)
-                    .setTitle("Proses Pesanan, dan Kirim Ke Admin")
+                MaterialAlertDialogBuilder(this@PesananUploadPembayaran).setTitle("Proses Pesanan, dan Kirim Ke Admin")
                     .setNegativeButton("Kembali") { dialog, _ ->
                         dialog.dismiss()
-                    }
-                    .setPositiveButton("Ok, Lanjutkan") { dialog, _ ->
+                    }.setPositiveButton("Ok, Lanjutkan") { dialog, _ ->
                         uploadBuktiBayarRequest()
-                    }
-                    .show()
+                    }.show()
             }
+        }
 
-
+        binding.btnBatalkan.setOnClickListener {
+            MaterialAlertDialogBuilder(this@PesananUploadPembayaran).setTitle("Apakah anda yakin ingin membatalkan pesanan ?")
+                .setNegativeButton("tidak") { dialog, _ ->
+                    dialog.dismiss()
+                }.setPositiveButton("Ok, Batalkan") { dialog, _ ->
+                    batalkanPesananRequest()
+                }.show()
         }
 
         binding.btnUploadBukti.setOnClickListener {
             val takePictOptions = arrayOf("Kamera", "Galeri")
-            AlertDialog.Builder(this)
-                .setTitle("Ambil gambar melalui")
+            AlertDialog.Builder(this).setTitle("Ambil gambar melalui")
                 .setItems(takePictOptions) { _, which ->
                     when (which) {
                         0 -> openCamera()
                         1 -> openGallery()
                     }
-                }
-                .create()
-                .show()
+                }.create().show()
 
 
         }
@@ -127,8 +124,7 @@ class PesananUploadPembayaran : AppCompatActivity() {
 
         binding.webviewDetailPemesanan.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(
-                view: WebView?,
-                request: WebResourceRequest?
+                view: WebView?, request: WebResourceRequest?
             ): Boolean {
                 return super.shouldOverrideUrlLoading(view, request)
             }
@@ -140,21 +136,26 @@ class PesananUploadPembayaran : AppCompatActivity() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 binding.webviewDetailPemesanan.layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
                 )
                 binding.webviewDetailPemesanan.loadUrl("javascript:getData('ad')")
                 binding.loading.isVisible = false
+                binding.refresh.isRefreshing = false
             }
 
             override fun onRenderProcessGone(
-                view: WebView?,
-                detail: RenderProcessGoneDetail?
+                view: WebView?, detail: RenderProcessGoneDetail?
             ): Boolean {
                 return super.onRenderProcessGone(view, detail)
             }
         }
         pesananDetail(bundle!!.getString("kode_pesanan")!!)
+
+
+        binding.refresh.setOnRefreshListener {
+            binding.webviewDetailPemesanan.reload()
+            pesananDetail(bundle!!.getString("kode_pesanan")!!)
+        }
 
     }
 //    end
@@ -169,20 +170,17 @@ class PesananUploadPembayaran : AppCompatActivity() {
 
                         if (data!!.data!![0]!!.statusPembayaran == "LUNAS") {
                             binding.groupLunas.visibility = View.INVISIBLE
+                            binding.btnBatalkan.isVisible = false
                             binding.tvStatusPembayaran.text = "Pembayaran Terkonfirmasi"
                             binding.tvStatusPembayaranDesc.text =
                                 "Pesanan anda telah berhasil dibuat dan dikonfirmasi oleh admin"
                             binding.tvStatusPembayaran.setTextColor(Color.parseColor("#007c00"));
-                        }
-
-                        else if (data.data!![0]!!.statusPembayaran == "BELUM" && (data.data[0]!!.buktiPembayaran != null && data.data[0]!!.buktiPembayaran != "")) {
+                        } else if (data.data!![0]!!.statusPembayaran == "BELUM" && (data.data[0]!!.buktiPembayaran != null && data.data[0]!!.buktiPembayaran != "")) {
                             binding.groupLunas.visibility = View.INVISIBLE
                             binding.tvStatusPembayaran.text = "Menunggu Konfirmasi Admin"
                             binding.tvStatusPembayaranDesc.text =
                                 "Admin sedang memverifikasi bukti Pembayaran"
-                        }
-
-                        else if (data.data!![0]!!.statusPembayaran == "BELUM" && data.data[0]!!.buktiPembayaran == null ) {
+                        } else if (data.data[0]!!.statusPembayaran == "BELUM" && data.data[0]!!.buktiPembayaran == null) {
                             binding.groupLunas.visibility = View.VISIBLE
                             binding.tvStatusPembayaran.text = "Menunggu Pembayaran"
                             binding.tvStatusPembayaranDesc.text =
@@ -199,6 +197,40 @@ class PesananUploadPembayaran : AppCompatActivity() {
 
     }
 
+    private fun batalkanPesananRequest() {
+        dialog.startLoadingdialog()
+        RetrofitService.create(this).batalkanPesanan(bundle!!.getString("kode_pesanan"))
+            .enqueue(object : Callback<BaseResponseApi> {
+                override fun onResponse(
+                    call: Call<BaseResponseApi>, response: Response<BaseResponseApi>
+                ) {
+                    if (response.isSuccessful) {
+                        dialog.dismissdialog()
+                        val data = response.body()!!
+                        if (data.success == true) {
+                            MaterialAlertDialogBuilder(this@PesananUploadPembayaran).setTitle("Pesanan Berhasil Dibatalkan")
+                                .setCancelable(false)
+                                .setPositiveButton("Ok") { dialog, _ ->
+                                    val intent = Intent(
+                                        this@PesananUploadPembayaran, MainActivity::class.java
+                                    )
+                                    intent.putExtras(bundle!!)
+                                    intent.flags =
+                                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    startActivity(intent)
+                                }.show()
+                        }
+
+                    }
+                }
+
+                override fun onFailure(call: Call<BaseResponseApi>, t: Throwable) {
+                    dialog.dismissdialog()
+                    Toast.makeText(this@PesananUploadPembayaran, "" + t, Toast.LENGTH_SHORT).show()
+                }
+            })
+    }
+
     private fun uploadBuktiBayarRequest() {
 
 
@@ -206,9 +238,7 @@ class PesananUploadPembayaran : AppCompatActivity() {
         val bodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
         bodyBuilder.addFormDataPart("kode_pesanan", kode_pesanan.toString())
         bodyBuilder.addFormDataPart(
-            "img_bukti",
-            ImgBukti.name,
-            ImgBukti.asRequestBody("*".toMediaTypeOrNull())
+            "img_bukti", ImgBukti.name, ImgBukti.asRequestBody("*".toMediaTypeOrNull())
         )
         dialog.startLoadingdialog();
 
@@ -216,8 +246,7 @@ class PesananUploadPembayaran : AppCompatActivity() {
         RetrofitService.create(this).uploadBukti(requestBody)
             .enqueue(object : Callback<BaseResponseApi> {
                 override fun onResponse(
-                    call: Call<BaseResponseApi>,
-                    response: Response<BaseResponseApi>
+                    call: Call<BaseResponseApi>, response: Response<BaseResponseApi>
                 ) {
                     if (response.body()!!.success!!) {
                         Toast.makeText(
@@ -230,15 +259,14 @@ class PesananUploadPembayaran : AppCompatActivity() {
                         val id_kursi_pesanan = bundle!!.getString("id_kursi_pesanan")
                         val id_user = bundle!!.getString("id_user")
                         val id_jadwal = bundle!!.getString("id_jadwal")
-                        val kode_pesanan = bundle!!.getString("kode_pesanan")
+
 
                         bundle?.putString("id_kursi_pesanan", id_kursi_pesanan)
                         bundle?.putString("id_user", id_user)
                         bundle?.putString("id_jadwal", id_jadwal)
-                        bundle?.putString("kode_pesanan", kode_pesanan)
+                        bundle?.putString("kode_pesanan", bundle!!.getString("kode_pesanan"))
                         val intent = Intent(
-                            this@PesananUploadPembayaran,
-                            PesananDetail::class.java
+                            this@PesananUploadPembayaran, PesananDetail::class.java
                         )
                         intent.putExtras(bundle!!)
                         intent.flags =
@@ -283,8 +311,7 @@ class PesananUploadPembayaran : AppCompatActivity() {
                 }
                 checkSelfPermission(Manifest.permission.CAMERA) -> {
                     requestPermissions(
-                        arrayOf(Manifest.permission.CAMERA),
-                        CAMERA_PERMISSION_CODE
+                        arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE
                     )
                 }
             }
@@ -292,9 +319,7 @@ class PesananUploadPembayaran : AppCompatActivity() {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
@@ -336,20 +361,19 @@ class PesananUploadPembayaran : AppCompatActivity() {
         getResult.launch(intent)
     }
 
-    private val getResult =
-        registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val data: Intent? = result.data
-                if (data != null) {
-                    val uri = data.extras?.get("data")!! as Uri
-                    ImgBukti = File(uri.path!!)
-                    imageUri = uri
-                    Glide.with(this).load(uri).into(binding.imgBukti)
-                }
+    private val getResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data: Intent? = result.data
+            if (data != null) {
+                val uri = data.extras?.get("data")!! as Uri
+                ImgBukti = File(uri.path!!)
+                imageUri = uri
+                Glide.with(this).load(uri).into(binding.imgBukti)
             }
         }
+    }
 
 
     private fun openGallery() {
@@ -373,19 +397,35 @@ class PesananUploadPembayaran : AppCompatActivity() {
                 ImgBukti = File(path)
 
                 thumb.let {
-                    Glide.with(this)
-                        .load(it)
-                        .into(binding.imgBukti)
+                    Glide.with(this).load(it).into(binding.imgBukti)
                 }
             }
         }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-          R.id.home -> {
+            R.id.home -> {
                 onBackPressed()
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        if (bundle != null) {
+            if (bundle!!.getBoolean("konfirmasi")) {
+
+                val intent = Intent(
+                    this@PesananUploadPembayaran, MainActivity::class.java
+                )
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+
+            } else {
+                super.onBackPressed()
+            }
+        }
     }
 }

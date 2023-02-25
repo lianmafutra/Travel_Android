@@ -24,144 +24,174 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:ignore="SpeakableTextPresentCheck">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:ignore="SpeakableTextPresentCheck">
 
 
-            <WebView
-                android:id="@+id/webview_detail_pemesanan"
-                android:layout_width="0dp"
-                android:layout_height="400dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="WebViewLayout">
-
-            </WebView>
-
-            <TextView
-                android:id="@+id/tv_status_pembayaran"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/webview_detail_pemesanan"
-                tools:text="Menunggu Bukti Pembayaran" />
-
-            <ProgressBar
-                android:id="@+id/loading"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/webview_detail_pemesanan"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/webview_detail_pemesanan"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_status_pembayaran_desc"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="24dp"
-                android:gravity="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_status_pembayaran"
-                tools:text="Tolong Segera Melakukan Pengunggahan bukti pembayaran untuk menyelesaikan pemesanan" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_upload_bukti"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="56dp"
-                android:backgroundTint="@color/material_orange800"
-                android:text="Upload Bukti Pembayaran"
-                app:icon="@drawable/baseline_file_upload_24"
-                app:iconGravity="end"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_status_pembayaran_desc"
-                tools:layout_conversion_absoluteHeight="48dp"
-                tools:layout_conversion_absoluteWidth="371dp" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_proses"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="@color/material_green600"
-                android:gravity="center"
-                android:text="Lanjutkan"
-                app:icon="@drawable/baseline_check_24"
-                app:iconGravity="end"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="DuplicateClickableBoundsCheck"
-                tools:layout_conversion_absoluteHeight="48dp"
-                tools:layout_conversion_absoluteWidth="371dp" />
+                <WebView
+                    android:id="@+id/webview_detail_pemesanan"
+                    android:layout_width="0dp"
+                    android:layout_height="400dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="WebViewLayout">
 
-            <ImageView
-                android:id="@+id/img_bukti"
-                android:layout_width="125dp"
-                android:layout_height="125dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="32dp"
-                android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@+id/btn_proses"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_upload_bukti"
-                app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/placeholder" />
+                </WebView>
 
-            <TextView
-                android:id="@+id/tv_bukti"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="TextView"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="@+id/img_bukti"
-                app:layout_constraintStart_toStartOf="@+id/img_bukti"
-                app:layout_constraintTop_toBottomOf="@+id/img_bukti"
-                tools:text="File Bukti Pembayaran" />
+                <TextView
+                    android:id="@+id/tv_status_pembayaran"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.497"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/webview_detail_pemesanan"
+                    tools:text="Menunggu Bukti Pembayaran" />
 
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/group_lunas"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="invisible"
-                app:constraint_referenced_ids="img_bukti,btn_upload_bukti,btn_proses"
-                tools:visibility="visible" />
+                <ProgressBar
+                    android:id="@+id/loading"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/webview_detail_pemesanan"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/webview_detail_pemesanan"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+                <TextView
+                    android:id="@+id/tv_status_pembayaran_desc"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_status_pembayaran"
+                    tools:text="Tolong Segera Melakukan Pengunggahan bukti pembayaran untuk menyelesaikan pemesanan" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_upload_bukti"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="56dp"
+                    android:backgroundTint="@color/material_orange800"
+                    android:text="Upload Bukti Pembayaran"
+                    app:icon="@drawable/baseline_file_upload_24"
+                    app:iconGravity="end"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_status_pembayaran_desc"
+                    tools:layout_conversion_absoluteHeight="48dp"
+                    tools:layout_conversion_absoluteWidth="371dp" />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_proses"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="8dp"
+                    android:backgroundTint="@color/material_green600"
+                    android:gravity="center"
+                    android:text="Lanjutkan"
+                    app:icon="@drawable/baseline_check_24"
+                    app:iconGravity="end"
+                    app:layout_constraintBottom_toTopOf="@+id/btn_batalkan"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="DuplicateClickableBoundsCheck"
+                    tools:layout_conversion_absoluteHeight="48dp"
+                    tools:layout_conversion_absoluteWidth="371dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_batalkan"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="#E53935"
+                    android:gravity="center"
+                    android:text="Batalkan Pesanan"
+                    android:visibility="visible"
+                    app:icon="@drawable/ic_baseline_clear_24"
+                    app:iconGravity="end"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="DuplicateClickableBoundsCheck"
+                    tools:layout_conversion_absoluteHeight="48dp"
+                    tools:layout_conversion_absoluteWidth="371dp"
+                    tools:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/img_bukti"
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="32dp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toTopOf="@+id/btn_proses"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_upload_bukti"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@drawable/placeholder" />
+
+                <TextView
+                    android:id="@+id/tv_bukti"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="TextView"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@+id/img_bukti"
+                    app:layout_constraintStart_toStartOf="@+id/img_bukti"
+                    app:layout_constraintTop_toBottomOf="@+id/img_bukti"
+                    tools:text="File Bukti Pembayaran" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/group_lunas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    app:constraint_referenced_ids="img_bukti,btn_upload_bukti,btn_proses"
+                    tools:visibility="visible" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

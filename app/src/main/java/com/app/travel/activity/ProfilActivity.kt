@@ -68,8 +68,7 @@ class ProfilActivity : AppCompatActivity() {
                 .setNegativeButton("batal") { dialog, _ ->
                     dialog.dismiss()
                 }.setPositiveButton("Ya, Keluar") { _, _ ->
-                    sessionManager.deleteAuthToken()
-                    startActivity(Intent(this, LoginActivity::class.java))
+                    logoutRequest()
                 }.show()
         }
 
@@ -103,9 +102,6 @@ class ProfilActivity : AppCompatActivity() {
             }
 
         }
-
-
-
 
         checkPermission()
         userDetailRequest()
@@ -298,6 +294,33 @@ class ProfilActivity : AppCompatActivity() {
                     Toast.makeText(this@ProfilActivity, "" + t, Toast.LENGTH_SHORT).show()
                 }
             })
+
+    }
+
+    private fun logoutRequest() {
+        dialog.startLoadingdialog()
+        RetrofitService.create(this).logout(sessionManager.getFCMToken()).enqueue(object : Callback<BaseResponseApi> {
+            override fun onResponse(
+                call: Call<BaseResponseApi>, response: Response<BaseResponseApi>
+            ) {
+                val data = response.body()
+                if (response.isSuccessful) {
+                    sessionManager.deleteAuthToken()
+                    sessionManager.deleteFCMToken()
+                    dialog.dismissdialog()
+                    startActivity(Intent(this@ProfilActivity, LoginActivity::class.java))
+                } else {
+                    dialog.dismissdialog()
+                    Toast.makeText(this@ProfilActivity, data.toString(), Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+
+            override fun onFailure(call: Call<BaseResponseApi>, t: Throwable) {
+                dialog.dismissdialog()
+                Toast.makeText(this@ProfilActivity, "" + t, Toast.LENGTH_SHORT).show()
+            }
+        })
 
     }
 

@@ -36,6 +36,12 @@ class SessionManager(context: Context)  {
         editor.apply()
     }
 
+    fun deleteFCMToken() {
+        val editor = prefs.edit()
+        editor.putString("fcm_token", null)
+        editor.apply()
+    }
+
     fun getFCMToken(): String? {
         return prefs.getString("fcm_token", null)
     }

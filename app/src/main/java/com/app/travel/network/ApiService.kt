@@ -48,6 +48,10 @@ interface ApiService {
     fun kirimReview(@Body body: RequestBody
     ): Call<BaseResponseApi>
 
+    @POST("api/user/pesanan/batalkan")
+    @FormUrlEncoded
+    fun batalkanPesanan(@Field("kode_pesanan") kode_pesanan: String?): Call<BaseResponseApi>
+
     @POST("api/user/pesanan")
     fun buatPesanan(@Body body: RequestBody
     ): Call<BaseResponseApi>
@@ -72,7 +76,7 @@ interface ApiService {
 
     @POST("api/user/logout")
     @FormUrlEncoded
-     fun logout(@Field("token_firebase") token_firebase: String?): Call<BaseResponseApi>
+     fun logout(@Field("token") token: String?): Call<BaseResponseApi>
 
 
     @GET("/api/pesanan/notif/count")

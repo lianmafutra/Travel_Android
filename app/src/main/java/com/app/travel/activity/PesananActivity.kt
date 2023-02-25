@@ -74,10 +74,11 @@ class PesananActivity : AppCompatActivity(), PesananAdapter.OnItemClickListener 
     override fun onItemClick(item: DataItem?, jenis: String) {
         val bundle = Bundle()
         if (jenis == "bayar") {
-            bundle.putString("id_kursi_pesanan", null)
             bundle.putString("id_user", item!!.userId.toString())
+            bundle.putString("id_kursi_pesanan", item.id_kursi_pesanan)
             bundle.putString("id_jadwal", item.jadwalId.toString())
             bundle.putString("kode_pesanan", item.kodePesanan.toString())
+
             val intent = Intent(this@PesananActivity, PesananUploadPembayaran::class.java)
             intent.putExtras(bundle)
             startActivity(intent)

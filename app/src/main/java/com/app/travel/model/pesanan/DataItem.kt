@@ -17,6 +17,10 @@ data class DataItem(
 	@field:SerializedName("total_biaya")
 	val total_biaya: Int? = null,
 
+
+	@field:SerializedName("id_kursi_pesanan")
+	val id_kursi_pesanan: String? = null,
+
 	@field:SerializedName("rating_nilai")
 	val ratingNilai: Int? = null,
 

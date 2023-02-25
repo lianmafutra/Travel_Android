@@ -91,6 +91,9 @@ class PesanKursiActivity : AppCompatActivity() {
         }
 
         binding.btnLanjutPesanKursi.setOnClickListener {
+
+
+
             if(DATA.KURSI_PESANAN.isEmpty()){
                 MaterialAlertDialogBuilder(this@PesanKursiActivity)
                     .setTitle("Kursi Belum dipilih")

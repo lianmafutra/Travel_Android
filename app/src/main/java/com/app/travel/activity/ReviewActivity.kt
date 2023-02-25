@@ -30,6 +30,10 @@ class ReviewActivity : AppCompatActivity(), ReviewPenggunaAdapter.OnItemClickLis
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         val bundle = intent.extras
         reviewPenggunaRequest(bundle!!.getString("id_mobil")!!)
+
+        binding.refresh.setOnRefreshListener {
+            reviewPenggunaRequest(bundle.getString("id_mobil")!!)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -54,6 +58,7 @@ class ReviewActivity : AppCompatActivity(), ReviewPenggunaAdapter.OnItemClickLis
                         val data = response.body()!!.data
                         val adapter = ReviewPenggunaAdapter(data, this@ReviewActivity,this@ReviewActivity)
                         binding.rvReviewPengguna.adapter = adapter
+                        binding.refresh.isRefreshing = false
 
                     }
                 }

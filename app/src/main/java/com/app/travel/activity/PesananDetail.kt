@@ -3,6 +3,7 @@ package com.app.travel.activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.webkit.*
 import android.widget.LinearLayout
@@ -31,6 +32,10 @@ class PesananDetail : AppCompatActivity() {
         val id_user = bundle.getString("id_user")
         val id_jadwal = bundle.getString("id_jadwal")
         val kode_pesanan = bundle.getString("kode_pesanan")
+
+        for (key in bundle.keySet()) {
+            Log.d("Bundle Debug", key + " = \"" + bundle[key] + "\"")
+        }
 
         binding.swiperefresh.setOnRefreshListener {
             binding.webviewDetailPemesanan.reload()
