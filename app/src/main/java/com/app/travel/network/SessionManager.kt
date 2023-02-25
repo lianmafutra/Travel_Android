@@ -30,6 +30,17 @@ class SessionManager(context: Context)  {
         editor.apply()
     }
 
+    fun saveFCMToken(token: String) {
+        val editor = prefs.edit()
+        editor.putString("fcm_token", token)
+        editor.apply()
+    }
+
+    fun getFCMToken(): String? {
+        return prefs.getString("fcm_token", null)
+    }
+
+
     fun saveUser(user: User?) {
         val editor = prefs.edit()
         val gson = Gson()

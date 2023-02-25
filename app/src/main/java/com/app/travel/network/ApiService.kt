@@ -32,7 +32,7 @@ interface ApiService {
 
     @POST("api/user/token/fcm")
     @FormUrlEncoded
-    fun insertTokenFCM( @Field("token_fcm") token_fcm: String?) : Call<BaseResponseApi>
+    fun insertTokenFCM( @Field("token") token: String?) : Call<BaseResponseApi>
 
     @GET("api/pesanan/detail/{kode_pesanan}")
     fun pesananDetail(@Path("kode_pesanan") kode_pesanan: String) : Call<Pesanan>

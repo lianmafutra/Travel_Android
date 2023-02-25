@@ -1,92 +1,83 @@
 package com.app.travel.utils
 
 
-import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.media.RingtoneManager
 import android.os.Build
+import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
-import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import com.app.travel.R
 import com.app.travel.activity.MainActivity
+import com.google.android.gms.tasks.Task
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
 
-class NotificationService : FirebaseMessagingService() {
-    override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        super.onMessageReceived(remoteMessage)
-        var title: String? = ""
-        var body: String? = ""
-        var pendingIntent: PendingIntent? = null
-        if (remoteMessage.notification != null) {
-            title = remoteMessage.notification!!.title
-            body = remoteMessage.notification!!.body
-        }
-        val notificationColor = resources.getColor(R.color.purple_500)
-        val notificationIcon = notificationIcon
-        val notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val channelId = "ini"
-        val notification_id = 123
-        createNotificationChannel()
-        val pattern = longArrayOf(500, 500, 500, 500, 500)
+class FirebaseNotif : FirebaseMessagingService() {
 
-        //notif click foreground
-        val intent: Intent = Intent(this, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
-        val notification =
-            NotificationCompat.Builder(this, channelId).setContentTitle(title).setContentText(body)
-                .setAutoCancel(true).setSmallIcon(notificationIcon).setColor(notificationColor)
-                .setShowWhen(true).setVibrate(pattern).setSound(notificationSound)
-                .setBadgeIconType(NotificationCompat.BADGE_ICON_LARGE)
-                .setStyle(NotificationCompat.BigTextStyle().bigText(body))
-                .setPriority(NotificationCompat.PRIORITY_MAX).setContentIntent(pendingIntent)
-                .build()
-        val manager = NotificationManagerCompat.from(applicationContext)
 
-        if (ActivityCompat.checkSelfPermission(
-                this, Manifest.permission.POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            manager.notify(notification_id, notification)
-            return
-        }
-
-    }
-
-    //khusus android versi Oreo
-    private fun createNotificationChannel() {
-        val channelId = "ini"
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name: CharSequence = "ini"
-            val description = "tes"
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            val channel =
-                NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_DEFAULT)
-            channel.description = description
-            channel.vibrationPattern = longArrayOf(0L)
-            channel.enableVibration(true)
-            val notificationManager = getSystemService(
-                NotificationManager::class.java
-            )
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
-
-    private val notificationIcon: Int
-        get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            R.mipmap.ic_launcher
-        } else R.mipmap.ic_launcher
+    private var TAG: String = "Notif"
 
     override fun onNewToken(s: String) {
-        super.onNewToken(s)
-        Log.e("NEW_TOKEN", s)
+        FirebaseMessaging.getInstance().token.addOnSuccessListener { token: String ->
+            if (!TextUtils.isEmpty(token)) {
+                Log.d(TAG, "retrieve token successful : $token")
+            } else {
+                Log.w(TAG, "token should not be null...")
+            }
+        }.addOnFailureListener { e: Exception? -> }.addOnCanceledListener {}
+            .addOnCompleteListener { task: Task<String> ->
+                Log.v(TAG, "This is the token : " + task.result)
+            }
+    }
+
+
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        super.onMessageReceived(remoteMessage)
+        val data = remoteMessage.data
+
+
+        val layananUUID = data["layanan_uuid"].toString()
+        val header = data["header"].toString()
+        val registrasiUUID = data["registrasi_uuid"].toString()
+        Log.v(TAG, "dataku : $data")
+        val intent = Intent(this, MainActivity::class.java)
+        val bundle = Bundle()
+        bundle.putBoolean("dataFromNotif", true)
+        bundle.putString("layanan_uuid", layananUUID)
+        bundle.putString("header", header)
+        bundle.putString("registrasi_uuid", registrasiUUID)
+        intent.putExtras(bundle)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+
+        val pendingIntent =
+            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+        val channelId = "Default"
+        val builder = NotificationCompat.Builder(this, channelId)
+            .setSmallIcon(R.drawable.ic_calendar)
+            .setContentTitle(remoteMessage.notification!!.title)
+            .setContentText(remoteMessage.notification!!.body).setAutoCancel(true)
+            .setContentIntent(pendingIntent)
+        val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+
+        remoteMessage.notification!!.clickAction
+        Log.v(TAG, "dataku bg :" + remoteMessage.notification!!.body)
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                channelId,
+                "Default channel",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            manager.createNotificationChannel(channel)
+        }
+        manager.notify(0, builder.build())
     }
 }

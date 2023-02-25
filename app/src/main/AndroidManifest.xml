@@ -86,7 +86,12 @@
         <activity
             android:name=".activity.MainActivity"
             android:exported="false"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" >
+            <intent-filter>
+                <action android:name="data" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.LoginActivity"
             android:exported="false"
@@ -101,8 +106,19 @@
             </intent-filter>
         </activity>
 
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="travel" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_calendar" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/design_default_color_primary_variant" />
+
         <service
-            android:name=".utils.NotificationService"
+            android:name=".utils.FirebaseNotif"
             android:stopWithTask="false"
             android:exported="false">
             <intent-filter>
