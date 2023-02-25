@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isEmpty
 import com.app.travel.R
 import com.app.travel.databinding.ActivityRegisterBinding
 import com.app.travel.network.BaseResponseApi
@@ -199,6 +200,85 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun registerRequest() {
 
+        if(imageUri == null){
+            MaterialAlertDialogBuilder(this@RegisterActivity).setTitle("Foto Profil tidak boleh kosong")
+                .setCancelable(false)
+                .setNegativeButton("Ok") { dialog, _ ->
+                    dialog.dismiss()
+                }.show()
+           return
+        }
+
+        if(binding.edtNamaLengkap.text!!.isBlank()){
+            MaterialAlertDialogBuilder(this@RegisterActivity).setTitle("Nama lengkap wajib di isi")
+                .setCancelable(false)
+                .setNegativeButton("Ok") { dialog, _ ->
+                    dialog.dismiss()
+                }.show()
+            return
+        }
+
+        if(binding.edtEmail1.text!!.isBlank()){
+            MaterialAlertDialogBuilder(this@RegisterActivity).setTitle("Email wajib di isi")
+                .setCancelable(false)
+                .setNegativeButton("Ok") { dialog, _ ->
+                    dialog.dismiss()
+                }.show()
+            return
+        }
+        if(binding.edtKontak.text!!.isBlank()){
+            MaterialAlertDialogBuilder(this@RegisterActivity).setTitle("Kontak wajib di isi")
+                .setCancelable(false)
+                .setNegativeButton("Ok") { dialog, _ ->
+                    dialog.dismiss()
+                }.show()
+            return
+        }
+        if(!binding.radioLaki.isChecked && !binding.radioPerempuan.isChecked){
+            MaterialAlertDialogBuilder(this@RegisterActivity).setTitle("Jenis Kelamin wajib di isi")
+                .setCancelable(false)
+                .setNegativeButton("Ok") { dialog, _ ->
+                    dialog.dismiss()
+                }.show()
+            return
+        }
+
+        if(binding.edtAlamat.text!!.isBlank()){
+            MaterialAlertDialogBuilder(this@RegisterActivity).setTitle("Alamat wajib di isi")
+                .setCancelable(false)
+                .setNegativeButton("Ok") { dialog, _ ->
+                    dialog.dismiss()
+                }.show()
+            return
+        }
+        if(binding.edtPassword.text!!.isBlank()){
+            MaterialAlertDialogBuilder(this@RegisterActivity).setTitle("Password wajib di isi")
+                .setCancelable(false)
+                .setNegativeButton("Ok") { dialog, _ ->
+                    dialog.dismiss()
+                }.show()
+            return
+        }
+        if(binding.edtPasswordKonfirmasi.text!!.isBlank()){
+            MaterialAlertDialogBuilder(this@RegisterActivity).setTitle("Konfirmasi Password wajib di isi")
+                .setCancelable(false)
+                .setNegativeButton("Ok") { dialog, _ ->
+                    dialog.dismiss()
+                }.show()
+            return
+        }
+
+        val passwordBaru = binding.edtPassword.text.toString()
+        val passwordKonfirmasi = binding.edtPasswordKonfirmasi.text.toString()
+
+        if (passwordBaru != passwordKonfirmasi) {
+            MaterialAlertDialogBuilder(this@RegisterActivity).setTitle("Password dan Password konfirmasi harus sama")
+                .setCancelable(false)
+                .setNegativeButton("Ok") { dialog, _ ->
+                    dialog.dismiss()
+                }.show()
+            return
+        }
 
         val bodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
         bodyBuilder.addFormDataPart("nama_lengkap", binding.edtNamaLengkap.text.toString())
