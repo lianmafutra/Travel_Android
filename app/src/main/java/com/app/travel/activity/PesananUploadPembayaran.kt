@@ -26,6 +26,7 @@ import com.app.travel.model.pesanan.Pesanan
 import com.app.travel.network.BaseResponseApi
 import com.app.travel.network.Config
 import com.app.travel.network.RetrofitService
+import com.app.travel.network.SessionManager
 import com.app.travel.utils.DialogLoading
 import com.app.travel.utils.GetFilePath
 import com.app.travel.utils.MainCameraActivity
@@ -51,13 +52,13 @@ class PesananUploadPembayaran : AppCompatActivity() {
     private lateinit var ImgBukti: File
     var bundle: Bundle? = null
     val dialog: DialogLoading = DialogLoading(this)
-
+    private lateinit var sessionManager: SessionManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPesananUploadPembayaranBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
+        sessionManager = SessionManager(this)
 
         setSupportActionBar(binding.topAppBar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -111,7 +112,7 @@ class PesananUploadPembayaran : AppCompatActivity() {
         val kode_pesanan = bundle!!.getString("kode_pesanan")
 
 
-        binding.webviewDetailPemesanan.loadUrl(Config.BASE_URL + "/api/pesanan/detail/bayar?kode_pesanan=$kode_pesanan&id_user=$id_user&id_jadwal=$id_jadwal&id_kursi_pesanan=$id_kursi_pesanan")
+        binding.webviewDetailPemesanan.loadUrl(sessionManager.getIPServer() + "/api/pesanan/detail/bayar?kode_pesanan=$kode_pesanan&id_user=$id_user&id_jadwal=$id_jadwal&id_kursi_pesanan=$id_kursi_pesanan")
         binding.webviewDetailPemesanan.webViewClient = WebViewClient()
 
         binding.webviewDetailPemesanan.settings.javaScriptEnabled = true
@@ -168,7 +169,14 @@ class PesananUploadPembayaran : AppCompatActivity() {
                     if (response.isSuccessful) {
                         val data = response.body()
 
-                        if (data!!.data!![0]!!.statusPembayaran == "LUNAS") {
+                        if (data!!.data!![0]!!.statusPesanan == "DITOLAK") {
+                            binding.groupLunas.visibility = View.INVISIBLE
+                            binding.btnBatalkan.isVisible = false
+                            binding.tvStatusPembayaran.text = "Pesanan Anda Ditolak"
+                            binding.tvStatusPembayaranDesc.text = data.data!![0]!!.pesanTolak
+                            binding.tvStatusPembayaran.setTextColor(Color.parseColor("#007c00"));
+                        }
+                        else if (data.data!![0]!!.statusPembayaran == "LUNAS") {
                             binding.groupLunas.visibility = View.INVISIBLE
                             binding.btnBatalkan.isVisible = false
                             binding.tvStatusPembayaran.text = "Pembayaran Terkonfirmasi"

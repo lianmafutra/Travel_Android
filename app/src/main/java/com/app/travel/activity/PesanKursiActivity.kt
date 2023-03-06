@@ -12,7 +12,7 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.app.travel.databinding.ActivityPesanKursiBinding
-import com.app.travel.network.Config.URL_PESAN_KURSI
+
 import com.app.travel.network.SessionManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -38,7 +38,7 @@ class PesanKursiActivity : AppCompatActivity() {
 
 
         val bundle = intent.extras
-        binding.webviewKursi.loadUrl(URL_PESAN_KURSI+bundle!!.getString("id_jadwal")!!)
+        binding.webviewKursi.loadUrl(sessionManager.getIPServer()+"/api/jadwal/kursi/"+bundle!!.getString("id_jadwal")!!)
 
         binding.webviewKursi.settings.javaScriptEnabled = true
         binding.webviewKursi.webChromeClient = WebChromeClient()

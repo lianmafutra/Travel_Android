@@ -59,6 +59,12 @@ class PesananActivity : AppCompatActivity(), PesananAdapter.OnItemClickListener 
                     binding.rvPesanan.adapter = adapter
                     binding.swiperefresh.isRefreshing = false
                     binding.progressBar4.isVisible = false
+
+                    if(data.isEmpty()){
+                        binding.groupRvEmpty.isVisible = true
+                    }else{
+                        binding.groupRvEmpty.isVisible = false
+                    }
                 }
             }
 
@@ -78,6 +84,7 @@ class PesananActivity : AppCompatActivity(), PesananAdapter.OnItemClickListener 
             bundle.putString("id_kursi_pesanan", item.id_kursi_pesanan)
             bundle.putString("id_jadwal", item.jadwalId.toString())
             bundle.putString("kode_pesanan", item.kodePesanan.toString())
+
 
             val intent = Intent(this@PesananActivity, PesananUploadPembayaran::class.java)
             intent.putExtras(bundle)

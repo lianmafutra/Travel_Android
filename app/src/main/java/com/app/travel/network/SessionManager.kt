@@ -36,6 +36,16 @@ class SessionManager(context: Context)  {
         editor.apply()
     }
 
+    fun saveIPServer(ip: String) {
+        val editor = prefs.edit()
+        editor.putString("ip", ip)
+        editor.apply()
+    }
+
+    fun getIPServer(): String? {
+        return prefs.getString("ip", null)
+    }
+
     fun deleteFCMToken() {
         val editor = prefs.edit()
         editor.putString("fcm_token", null)

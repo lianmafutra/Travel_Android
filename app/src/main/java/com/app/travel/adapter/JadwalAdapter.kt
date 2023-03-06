@@ -9,6 +9,7 @@ import com.app.travel.R
 import com.app.travel.databinding.ItemJadwalBinding
 import com.app.travel.model.DataItemJadwal
 import com.app.travel.network.Config
+import com.app.travel.network.SessionManager
 import com.app.travel.utils.convertToRupiah
 import com.bumptech.glide.Glide
 
@@ -38,10 +39,10 @@ class JadwalAdapter(
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind(item: DataItemJadwal, clickListener: OnItemClickListener, context: Context) {
-
+            val sessionManager = SessionManager(context)
             Glide
                 .with(context)
-                .load(Config.URL_STORAGE + item.mobil!!.foto)
+                .load(sessionManager.getIPServer()+"/storage/" + item.mobil!!.foto)
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder)
                 .centerCrop()

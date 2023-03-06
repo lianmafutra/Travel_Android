@@ -58,6 +58,11 @@ class PesananAdapter(
                 binding.tvStatus.text = "Pesanan telah anda batalkan"
                 binding.tvStatus.setTextColor(Color.parseColor("#dc3545"));
             }
+            else if(item.statusPesanan == "DITOLAK") {
+                binding.btnBayar.isVisible = true
+                binding.tvStatus.text = "Pesanan Anda Ditolak"
+                binding.tvStatus.setTextColor(Color.parseColor("#dc3545"));
+            }
             else if(item.statusPembayaran == "BELUM" && item.buktiPembayaran == null) {
                 binding.btnBayar.isVisible = true
                 binding.tvStatus.text = "Menunggu Pembayaran"

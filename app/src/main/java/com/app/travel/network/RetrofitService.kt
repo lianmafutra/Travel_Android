@@ -1,5 +1,6 @@
 package com.app.travel.network
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Handler
@@ -17,9 +18,9 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitService {
 
-
-
     fun create(context: Context): ApiService {
+
+
         val handler = Handler(Looper.getMainLooper())
         val mOkHttpClient = OkHttpClient
             .Builder()
@@ -31,9 +32,11 @@ object RetrofitService {
             .retryOnConnectionFailure(false)
             .build()
 
+        val sessionManager = SessionManager(context)
+
         val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(Config.BASE_URL)
+            .baseUrl(sessionManager.getIPServer().toString())
             .client(mOkHttpClient)
             .build()
 

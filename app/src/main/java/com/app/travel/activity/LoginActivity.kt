@@ -34,6 +34,12 @@ class LoginActivity : AppCompatActivity() {
             loginRequest(binding.edtEmail1.text.toString(), binding.edtPassword.text.toString())
         }
 
+        binding.imgFoto.setOnClickListener {
+            val intent = Intent(this, ConfigIpActivity::class.java)
+            startActivity(intent)
+        }
+
+
         val mIntent = intent
 
 

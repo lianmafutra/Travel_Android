@@ -142,7 +142,7 @@ class MainActivity : AppCompatActivity() {
                     binding.swiperefresh.isRefreshing = false
                     val data = response.body()!!.data!!
                     binding.tvNama.text = data.namaLengkap.toString()
-                    Glide.with(this@MainActivity).load(Config.URL_STORAGE + data.foto)
+                    Glide.with(this@MainActivity).load(sessionManager.getIPServer()+"/storage/" + data.foto)
                         .apply(options).into(binding.imgFoto)
                 }
             }

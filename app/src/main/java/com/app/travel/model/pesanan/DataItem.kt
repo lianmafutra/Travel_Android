@@ -14,6 +14,9 @@ data class DataItem(
 	val createdAt: String? = null,
 
 
+	@field:SerializedName("pesan_tolak")
+	val pesanTolak: String? = null,
+
 	@field:SerializedName("total_biaya")
 	val total_biaya: Int? = null,
 

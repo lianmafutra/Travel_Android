@@ -9,6 +9,7 @@ import com.app.travel.R
 import com.app.travel.databinding.ItemReviewPenggunaBinding
 import com.app.travel.model.DataItemReview
 import com.app.travel.network.Config
+import com.app.travel.network.SessionManager
 import com.bumptech.glide.Glide
 
 class ReviewPenggunaAdapter(
@@ -37,8 +38,8 @@ class ReviewPenggunaAdapter(
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind(item: DataItemReview, clickListener: OnItemClickListener, context: Context) {
-
-            Glide.with(context).load(Config.URL_STORAGE + item.user!!.foto)
+            val sessionManager = SessionManager(context)
+            Glide.with(context).load(sessionManager.getIPServer()+"/storage/" + item.user!!.foto)
                 .placeholder(R.drawable.ic_user).error(R.drawable.ic_user).centerCrop()
                 .into(binding.imgFotoUser);
 

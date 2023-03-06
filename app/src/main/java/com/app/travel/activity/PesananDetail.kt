@@ -11,14 +11,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.app.travel.databinding.ActivityPesananDetailBinding
 import com.app.travel.network.Config
+import com.app.travel.network.SessionManager
 
 class PesananDetail : AppCompatActivity() {
     private lateinit var binding: ActivityPesananDetailBinding
+    private lateinit var sessionManager: SessionManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPesananDetailBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        sessionManager = SessionManager(this)
 //        setSupportActionBar(binding.topAppBar)
 //        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
@@ -41,7 +44,7 @@ class PesananDetail : AppCompatActivity() {
             binding.webviewDetailPemesanan.reload()
         }
 
-        binding.webviewDetailPemesanan.loadUrl(Config.BASE_URL + "/api/pesanan/detail/verifikasi?kode_pesanan=$kode_pesanan&id_user=$id_user&id_jadwal=$id_jadwal&id_kursi_pesanan=$id_kursi_pesanan")
+        binding.webviewDetailPemesanan.loadUrl( sessionManager.getIPServer()+ "/api/pesanan/detail/verifikasi?kode_pesanan=$kode_pesanan&id_user=$id_user&id_jadwal=$id_jadwal&id_kursi_pesanan=$id_kursi_pesanan")
         binding.webviewDetailPemesanan.webViewClient = WebViewClient()
 
 

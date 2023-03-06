@@ -14,6 +14,7 @@ import com.app.travel.databinding.ActivityPesananKonfirmasiBinding
 import com.app.travel.network.BaseResponseApi
 import com.app.travel.network.Config
 import com.app.travel.network.RetrofitService
+import com.app.travel.network.SessionManager
 import com.app.travel.utils.DialogLoading
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -27,12 +28,13 @@ class PesananKonfirmasi : AppCompatActivity() {
     var bundle: Bundle? = null
     private lateinit var binding: ActivityPesananKonfirmasiBinding
     val dialog : DialogLoading = DialogLoading(this)
-
+    private lateinit var sessionManager: SessionManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPesananKonfirmasiBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        sessionManager = SessionManager(this)
         setSupportActionBar(binding.topAppBar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
@@ -61,7 +63,7 @@ class PesananKonfirmasi : AppCompatActivity() {
         val id_user = bundle!!.getString("id_user")
         val id_jadwal = bundle!!.getString("id_jadwal")
 
-        binding.webviewKonfirmasi.loadUrl(Config.BASE_URL + "/api/pesanan/detail/konfirmasi?id_user=$id_user&id_jadwal=$id_jadwal&id_kursi_pesanan=$id_kursi_pesanan")
+        binding.webviewKonfirmasi.loadUrl(sessionManager.getIPServer() + "/api/pesanan/detail/konfirmasi?id_user=$id_user&id_jadwal=$id_jadwal&id_kursi_pesanan=$id_kursi_pesanan")
         binding.webviewKonfirmasi.webViewClient = WebViewClient()
 
         binding.webviewKonfirmasi.settings.cacheMode = WebSettings.LOAD_NO_CACHE;

@@ -20,7 +20,6 @@ import com.app.travel.R
 import com.app.travel.databinding.ActivityProfilBinding
 import com.app.travel.model.UserDetail
 import com.app.travel.network.BaseResponseApi
-import com.app.travel.network.Config.URL_STORAGE
 import com.app.travel.network.RetrofitService
 import com.app.travel.network.SessionManager
 import com.app.travel.utils.DialogLoading
@@ -243,7 +242,7 @@ class ProfilActivity : AppCompatActivity() {
                     binding.edtNamaLengkap.setText(data.namaLengkap.toString())
                     binding.edtAlamat.setText(data.alamat.toString())
 
-                    Glide.with(this@ProfilActivity).load(URL_STORAGE+data.foto).apply(options).into(binding.imgFoto)
+                    Glide.with(this@ProfilActivity).load(sessionManager.getIPServer()+"/storage/"+data.foto).apply(options).into(binding.imgFoto)
 
                     if (data.jenisKelamin.toString() == "L") {
                         binding.radioGroupJenkel.check(binding.radioLaki.id)
