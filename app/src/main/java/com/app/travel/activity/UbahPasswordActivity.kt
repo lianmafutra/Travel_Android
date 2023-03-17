@@ -39,6 +39,20 @@ class UbahPasswordActivity : AppCompatActivity() {
                     "Password baru dan passowrd konfirmasi harus sama",
                     Toast.LENGTH_SHORT
                 ).show()
+            }
+            else if (passwordBaru.isBlank()) {
+                Toast.makeText(
+                    this,
+                    "Password baru tidak boleh kosong",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            else if (passwordKonfirmasi.isBlank()) {
+                Toast.makeText(
+                    this,
+                    "Password Konfirmasi tidak boleh kosong",
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
                 updatePasswordRequest()
             }

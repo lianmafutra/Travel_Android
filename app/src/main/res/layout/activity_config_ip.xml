@@ -49,4 +49,12 @@
         app:layout_constraintStart_toStartOf="@+id/email"
         app:layout_constraintTop_toBottomOf="@+id/email" />
 
+    <Button
+        android:id="@+id/btn_cek_koneksi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cek Koneksi"
+        app:layout_constraintEnd_toEndOf="@+id/email"
+        app:layout_constraintTop_toBottomOf="@+id/tv_ip" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

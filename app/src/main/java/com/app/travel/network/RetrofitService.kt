@@ -21,7 +21,7 @@ object RetrofitService {
     fun create(context: Context): ApiService {
 
 
-        val handler = Handler(Looper.getMainLooper())
+
         val mOkHttpClient = OkHttpClient
             .Builder()
             .addInterceptor(AuthInterceptor(context))
