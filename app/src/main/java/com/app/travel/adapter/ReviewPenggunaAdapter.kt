@@ -46,6 +46,7 @@ class ReviewPenggunaAdapter(
             binding.tvNamaUser.text = item.user.namaLengkap
             binding.tvPesan.text = item.ratingKomen
             binding.bintangReview.rating = item.ratingNilai!!.toFloat()
+            binding.tglReview.text = item.ratingCreatedAt.toString()
 
         }
 

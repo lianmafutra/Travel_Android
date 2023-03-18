@@ -41,12 +41,14 @@
                 style="@android:style/Widget.Material.Light.RatingBar.Indicator"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:numStars="5"
                 android:rating="0"
                 android:stepSize="1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tv_pesan"
+                app:layout_constraintTop_toBottomOf="@+id/tgl_review"
                 tools:ignore="SpeakableTextPresentCheck">
 
             </androidx.appcompat.widget.AppCompatRatingBar>
@@ -77,6 +79,15 @@
                 app:layout_constraintStart_toStartOf="@+id/tv_pesan"
                 app:layout_constraintTop_toTopOf="@+id/img_foto_user"
                 tools:text="nama user" />
+
+            <TextView
+                android:id="@+id/tgl_review"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="@+id/tv_pesan"
+                app:layout_constraintTop_toBottomOf="@+id/tv_pesan"
+                tools:text="tgl_review" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -61,6 +61,9 @@ data class DataItemReview(
 	@field:SerializedName("rating_nilai")
 	val ratingNilai: Float?,
 
+	@field:SerializedName("rating_created_at")
+	val ratingCreatedAt: String?,
+
 	@field:SerializedName("status_pesanan")
 	val statusPesanan: String? = null,
 
