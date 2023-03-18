@@ -3,13 +3,13 @@ package com.app.travel.activity
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.app.travel.adapter.JadwalAdapter
 import com.app.travel.adapter.ReviewPenggunaAdapter
 import com.app.travel.databinding.ActivityReviewBinding
-import com.app.travel.model.DataItemJadwal
 import com.app.travel.model.DataItemReview
 import com.app.travel.model.ReviewPengguna
 import com.app.travel.network.RetrofitService
@@ -56,9 +56,17 @@ class ReviewActivity : AppCompatActivity(), ReviewPenggunaAdapter.OnItemClickLis
                 ) {
                     if (response.isSuccessful) {
                         val data = response.body()!!.data
-                        val adapter = ReviewPenggunaAdapter(data, this@ReviewActivity,this@ReviewActivity)
+                        val adapter =
+                            ReviewPenggunaAdapter(data, this@ReviewActivity, this@ReviewActivity)
                         binding.rvReviewPengguna.adapter = adapter
                         binding.refresh.isRefreshing = false
+                     if(response.body()!!.data?.isEmpty()!!){
+                         binding.imageView6.visibility = View.VISIBLE
+                         binding.textView11.visibility = View.VISIBLE
+                     }else{
+                         binding.imageView6.visibility = View.GONE
+                         binding.textView11.visibility = View.GONE
+                     }
 
                     }
                 }
@@ -69,7 +77,6 @@ class ReviewActivity : AppCompatActivity(), ReviewPenggunaAdapter.OnItemClickLis
             })
 
     }
-
 
 
     override fun onItemClickedLayananSyarat(dataItemReview: DataItemReview?, s: String) {

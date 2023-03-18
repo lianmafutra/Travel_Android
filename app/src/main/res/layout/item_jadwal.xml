@@ -58,7 +58,7 @@
             <ImageView
                 android:id="@+id/img_foto_user"
                 android:layout_width="0dp"
-                android:layout_height="150dp"
+                android:layout_height="200dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
@@ -87,7 +87,7 @@
                     android:padding="5dp">
 
                     <TextView
-                        android:id="@+id/tv_nama_mobil13"
+                        android:id="@+id/tv_nama_mobil12313"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="Mobil" />
@@ -101,6 +101,33 @@
 
                     <TextView
                         android:id="@+id/tv_nama_mobil"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="-" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/tv_nama_mobil13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Jenis" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text=":" />
+
+                    <TextView
+                        android:id="@+id/tv_jenis_mobil"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

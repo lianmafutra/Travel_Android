@@ -50,6 +50,7 @@ class JadwalAdapter(
 
             binding.tvHarga.text = item.harga?.toString()!!.convertToRupiah()
             binding.tvNamaMobil.text = item.mobil.nama.toString()
+            binding.tvJenisMobil.text = item.mobil.jenis.toString()
             binding.tvWaktu.text = item.tanggal + " (" + item.jam + " WIB)"
             binding.tvKursi.text = item.kursiTersedia.toString()
             binding.tvStatus.text = item.status.toString()

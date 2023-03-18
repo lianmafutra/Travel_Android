@@ -60,11 +60,7 @@ class PesananActivity : AppCompatActivity(), PesananAdapter.OnItemClickListener 
                     binding.swiperefresh.isRefreshing = false
                     binding.progressBar4.isVisible = false
 
-                    if(data.isEmpty()){
-                        binding.groupRvEmpty.isVisible = true
-                    }else{
-                        binding.groupRvEmpty.isVisible = false
-                    }
+                    binding.groupRvEmpty.isVisible = data.isEmpty()
                 }
             }
 

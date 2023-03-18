@@ -28,6 +28,7 @@ data class DataItemJadwal(
 	@field:SerializedName("mobil")
 	val mobil: Mobil? = null,
 
+
 	@field:SerializedName("status")
 	val status: String? = null,
 
@@ -81,6 +82,10 @@ data class Mobil(
 
 	@field:SerializedName("nama")
 	val nama: String? = null,
+
+
+	@field:SerializedName("jenis")
+	val jenis: String? = null,
 
 	@field:SerializedName("foto")
 	val foto: String? = null,
