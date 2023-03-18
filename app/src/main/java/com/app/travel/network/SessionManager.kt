@@ -67,8 +67,7 @@ class SessionManager(context: Context)  {
 
     fun deleteAuthToken() {
         val editor = prefs.edit()
-        editor.remove(USER_TOKEN)
-        editor.clear()
+        editor.putString(USER_TOKEN, null)
         editor.apply()
     }
 
