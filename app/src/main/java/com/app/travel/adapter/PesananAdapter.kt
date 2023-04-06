@@ -86,7 +86,22 @@ class PesananAdapter(
                 binding.tvStatus.text = "Pesanan Ditolak Admin"
             }
 
-            binding.tvJadwal.text = item.jadwal!!.lokasiKeberangkatanR!!.nama+" -> "+ item.jadwal.lokasiTujuanR!!.nama
+
+            if(item.statusPesanan == "TOLAK") {
+                binding.btnBayar.isVisible = true
+                binding.tvStatus.text = "Pesanan Ditolak Admin"
+            }
+
+            if(item.jadwal!!.jenisPesanan == "TRAVEL"){
+                binding.layoutJadwal.isVisible = true
+                binding.layoutTour.isVisible = false
+                binding.tvJadwal.text = item.jadwal.lokasiKeberangkatanR!!.nama+" -> "+ item.jadwal.lokasiTujuanR!!.nama
+            }else{
+                binding.layoutJadwal.isVisible = false
+                binding.layoutTour.isVisible = true
+                binding.tvTourJudul.text = item.jadwal.tourJudul
+            }
+
             binding.tvTotalBiaya.text = item.total_biaya.toString().convertToRupiah()
             binding.tvTglKeberangkatan.text = item.tglKeberangkatan
 

@@ -48,7 +48,6 @@ class NetworkConnectionInterceptor(context: Context) : Interceptor {
                 Handler(Looper.getMainLooper()).post {
                     Toast.makeText(data, "404 : Resource tidak dapat ditemukan", Toast.LENGTH_SHORT)
                         .show()
-                    data.startActivity(Intent(data, LoginActivity::class.java))
                 }
             }
             if (response.code == 500){

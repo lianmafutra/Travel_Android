@@ -29,6 +29,8 @@ interface ApiService {
     fun jadwalByLokasi(  @Field("lokasi_tujuan") lokasi_tujuan: String?,
                          @Field("lokasi_keberangkatan") lokasi_keberangkatan: String?) : Call<Jadwal>
 
+    @GET("api/jadwal/tour")
+    fun jadwalTour() : Call<Jadwal>
 
     @POST("api/user/token/fcm")
     @FormUrlEncoded
@@ -65,8 +67,8 @@ interface ApiService {
 
 
 
-    @GET("api/jadwal/detail/{id_jadwal}")
-    fun jadwalDetail(@Query("id_jadwal") id_jadwal: String) : Call<Jadwal>
+    @GET("api/jadwal/{id_jadwal}")
+    fun jadwalDetail(@Path("id_jadwal") id_jadwal: String) : Call<Jadwal>
 
     @GET("/api/pesanan/mobil/{id_mobil}/review")
     fun reviewByMobil(@Path("id_mobil") id_mobil: String) : Call<ReviewPengguna>

@@ -3,6 +3,7 @@ package com.app.travel.activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.app.travel.R
@@ -10,7 +11,6 @@ import com.app.travel.databinding.ActivityMainBinding
 import com.app.travel.model.NotifCount
 import com.app.travel.model.UserDetail
 import com.app.travel.network.BaseResponseApi
-import com.app.travel.network.Config
 import com.app.travel.network.RetrofitService
 import com.app.travel.network.SessionManager
 import com.bumptech.glide.Glide
@@ -18,11 +18,13 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.messaging.FirebaseMessaging
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,7 +40,27 @@ class MainActivity : AppCompatActivity() {
         sessionManager = SessionManager(this)
 
         binding.card1.setOnClickListener {
-            startActivity(Intent(this, PilihLokasiActivity::class.java))
+
+            val options = arrayOf("Travel", "Tour Wisata")
+            val builder3 = MaterialAlertDialogBuilder(this)
+                .setTitle("Pilih Jenis : ")
+                .setItems(options) { dialog, which ->
+                    // Handle option selection here
+                    when (which) {
+                        0 -> {
+                            startActivity(Intent(this, PilihLokasiActivity::class.java))
+                        }
+                        1 -> {
+                            startActivity(Intent(this, JadwalTourActivity::class.java))
+                        }
+                    }
+                }
+                .setNegativeButton("Batal") { dialog, which ->
+                    dialog.dismiss()
+                }
+
+            val dialog3 = builder3.create()
+            dialog3.show()
         }
 
         binding.card2.setOnClickListener {
