@@ -2,10 +2,14 @@ package com.app.travel.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.webkit.*
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.app.travel.R
 import com.app.travel.databinding.ActivityJadwalTourDetailBinding
 import com.app.travel.model.Jadwal
@@ -19,6 +23,8 @@ import retrofit2.Response
 
 class JadwalTourDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityJadwalTourDetailBinding
+    private lateinit var sessionManager: SessionManager
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityJadwalTourDetailBinding.inflate(layoutInflater)
@@ -27,7 +33,50 @@ class JadwalTourDetailActivity : AppCompatActivity() {
         setSupportActionBar(binding.topAppBar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         val bundle = intent.extras
+        sessionManager = SessionManager(this)
         jadwalRequest(bundle!!.getString("id_jadwal")!!)
+
+
+        binding.webviewGaleri.loadUrl( sessionManager.getIPServer()+ "/api/tour/galeri?id_jadwal="+ bundle.getString("id_jadwal")!!)
+        binding.webviewGaleri.webViewClient = WebViewClient()
+        binding.webviewGaleri.settings.javaScriptEnabled = true
+        binding.webviewGaleri.webChromeClient = WebChromeClient()
+        binding.webviewGaleri.addJavascriptInterface(
+            PesanKursiActivity.JavaScriptInterface(
+                this@JadwalTourDetailActivity
+            ), "Android"
+        );
+
+
+        binding.webviewGaleri.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(
+                view: WebView?,
+                request: WebResourceRequest?
+            ): Boolean {
+                return super.shouldOverrideUrlLoading(view, request)
+            }
+
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                super.onPageStarted(view, url, favicon)
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                binding.webviewGaleri.layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                binding.webviewGaleri.loadUrl("javascript:getData('ad')");
+            }
+
+            override fun onRenderProcessGone(
+                view: WebView?,
+                detail: RenderProcessGoneDetail?
+            ): Boolean {
+                return super.onRenderProcessGone(view, detail)
+            }
+        }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
